@@ -2,1103 +2,713 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=1440">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GAINN — Graduate Advancement in Neuromodulation and Neurotechnology</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..700&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..700&display=swap">
 <style>
-body { margin: 0; background: #070A0F; font-family: 'Instrument Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
-a { color: #A8C6F0; text-decoration: none; }
-a:hover { color: #FFFFFF; }
+:root{
+  --ink:#06090E; --band:#080C12; --card:#0C1119; --card-2:#0E141D; --raised:#0F1620;
+  --field:#070B10; --footer:#04070A;
+  --navy:#1E3765; --blue:#7CA6E2; --link:#A8C6F0; --red:#FF4A2B; --red-2:#FF8A73;
+  --tx:#EDF2F9; --tx-strong:#F6F9FD; --tx-body:#A9B6C8; --tx-mute:#8B99AD; --tx-faint:#6E7E93; --tx-ghost:#55637A;
+  --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.14); --line-blue:rgba(124,166,226,.24);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Instrument Sans',system-ui,-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --shell:min(1180px,calc(100vw - 96px));
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--ink);color:var(--tx);font-family:var(--sans);
+  font-size:16px;line-height:1.7;letter-spacing:-.004em;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;
+}
+img{max-width:100%;display:block}
+a{color:var(--link);text-decoration:none}
+h1,h2,h3{margin:0;font-family:var(--serif);font-weight:400;font-variation-settings:'opsz' 144,'SOFT' 0,'WONK' 0;}
+p{margin:0}
+::selection{background:rgba(255,74,43,.28);color:#fff}
+
+/* ── type ─────────────────────────────────────── */
+.display{font-size:clamp(46px,6.6vw,92px);line-height:.98;letter-spacing:-.035em;color:var(--tx-strong)}
+.h2{font-size:clamp(32px,4vw,58px);line-height:1.04;letter-spacing:-.03em;color:var(--tx-strong)}
+.h3{font-size:clamp(26px,2.6vw,38px);line-height:1.1;letter-spacing:-.028em;color:var(--tx-strong)}
+.ttl{font-family:var(--sans);font-weight:600;font-size:19px;line-height:1.3;letter-spacing:-.018em;color:var(--tx)}
+.lede{font-size:clamp(17px,1.35vw,19px);line-height:1.62;color:var(--tx-body)}
+.body{font-size:15px;line-height:1.68;color:var(--tx-mute)}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--blue)}
+.micro{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--tx-faint)}
+.it{font-style:italic;color:#9EC0EE}
+
+/* ── layout ───────────────────────────────────── */
+.shell{width:var(--shell);margin:0 auto}
+section{position:relative;scroll-margin-top:92px}
+.sec{padding:clamp(80px,9vw,132px) 0}
+.band{background:var(--band);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.head{display:flex;align-items:center;gap:16px;margin-bottom:clamp(32px,4vw,52px)}
+.head .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line-2),rgba(255,255,255,.02));transform-origin:left;transform:scaleX(0);transition:transform 1.1s var(--ease) .1s}
+.in .head .rule,.head.in .rule{transform:scaleX(1)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--red);flex:none;box-shadow:0 0 12px rgba(255,74,43,.7)}
+
+/* ── reveal ───────────────────────────────────── */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+
+/* ── progress + nav ───────────────────────────── */
+#prog{position:fixed;top:0;left:0;height:2px;width:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,var(--red),var(--blue));z-index:99}
+nav{position:fixed;top:0;left:0;right:0;z-index:90;background:rgba(6,9,14,.72);backdrop-filter:blur(18px);border-bottom:1px solid transparent;transition:.45s var(--ease)}
+nav.up{transform:translateY(-100%)}
+nav.on{border-bottom-color:var(--line);background:rgba(6,9,14,.9)}
+.bar{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px;transition:height .45s var(--ease)}
+nav.on .bar{height:64px}
+.brand{display:flex;align-items:center;gap:13px}
+.brand b{font-weight:600;font-size:21px;letter-spacing:.13em;color:#F4F7FB}
+.brand .sub{font-family:var(--mono);font-size:9.5px;line-height:1.45;letter-spacing:.07em;color:var(--tx-faint);border-left:1px solid var(--line-2);padding-left:13px}
+.links{display:flex;align-items:center;gap:30px}
+.links a{position:relative;font-size:13.5px;font-weight:500;color:#B8C4D4;transition:color .3s}
+.links a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--blue);transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease)}
+.links a:hover,.links a.cur{color:#fff}
+.links a:hover::after,.links a.cur::after{transform:scaleX(1);transform-origin:left}
+
+/* ── buttons ──────────────────────────────────── */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;height:56px;padding:0 28px;border-radius:999px;font-size:14.5px;font-weight:600;letter-spacing:-.008em;overflow:hidden;border:1px solid transparent;cursor:pointer;font-family:var(--sans);transition:transform .35s var(--ease),box-shadow .45s var(--ease),border-color .35s,color .35s}
+.btn span{position:relative;z-index:2;display:inline-flex;align-items:center;gap:10px}
+.btn svg{transition:transform .45s var(--ease)}
+.btn:hover svg{transform:translateX(5px)}
+.btn::before{content:"";position:absolute;inset:0;z-index:1;transform:translateX(-101%);transition:transform .55s var(--ease)}
+.btn:hover::before{transform:translateX(0)}
+.btn-1{background:var(--red);color:#0A0D12}
+.btn-1::before{background:#fff}
+.btn-1:hover{box-shadow:0 12px 40px -12px rgba(255,74,43,.75)}
+.btn-2{border-color:rgba(255,255,255,.18);color:#E6EDF7;background:transparent}
+.btn-2::before{background:rgba(255,255,255,.08)}
+.btn-2:hover{border-color:rgba(124,166,226,.6)}
+.btn-3{height:48px;padding:0 22px;font-size:13.5px;font-weight:500;border-color:var(--line-2);color:#E2EAF6;background:transparent}
+.btn-3::before{background:rgba(124,166,226,.14)}
+.btn:active{transform:scale(.97)}
+
+/* ── hero ─────────────────────────────────────── */
+#hero{min-height:100svh;display:flex;align-items:center;padding:132px 0 88px;overflow:hidden}
+#gl{position:absolute;inset:0;z-index:0}
+#gl canvas{display:block;width:100%;height:100%}
+.hero-fx{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(900px 620px at 72% 42%,rgba(30,55,101,.42),rgba(6,9,14,0) 70%)}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.2;z-index:2}
+.hero-in{position:relative;z-index:3;max-width:660px}
+.tag{display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 16px 0 12px;border:1px solid rgba(124,166,226,.3);border-radius:999px;background:rgba(30,55,101,.24);backdrop-filter:blur(6px)}
+.tag span{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--link)}
+.w{display:inline-block;overflow:hidden;vertical-align:bottom}
+.w i{display:inline-block;font-style:inherit;transform:translateY(110%);transition:transform 1s var(--ease);transition-delay:var(--d)}
+.lit .w i{transform:none}
+.hero-sub{display:flex;gap:22px;margin-top:30px;max-width:520px}
+.hero-sub .bar-r{width:52px;height:1px;background:rgba(255,74,43,.9);margin-top:14px;flex:none}
+.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px}
+.stats{display:flex;gap:44px;margin-top:56px;flex-wrap:wrap}
+.stat b{display:block;font-family:var(--serif);font-weight:300;font-size:38px;line-height:1;letter-spacing:-.03em;color:var(--tx-strong);font-variant-numeric:tabular-nums}
+.stat i{display:block;margin-top:9px;font-style:normal;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--tx-faint)}
+.cue{position:absolute;left:0;bottom:34px;z-index:3;display:flex;align-items:center;gap:14px}
+.cue .ln{width:1px;height:34px;background:linear-gradient(var(--blue),transparent);animation:cue 2.6s var(--ease) infinite}
+@keyframes cue{0%,100%{transform:scaleY(.4);opacity:.4}50%{transform:scaleY(1);opacity:1}}
+.hint{position:absolute;right:0;bottom:36px;z-index:3;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--tx-ghost)}
+
+/* ── marquee ──────────────────────────────────── */
+.mq{overflow:hidden;padding:26px 0;display:flex;align-items:center;gap:36px}
+.mq-lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--tx-faint);white-space:nowrap;flex:none}
+.track{display:flex;gap:56px;width:max-content;animation:slide 34s linear infinite}
+.track.rev{animation-direction:reverse;animation-duration:44s}
+.mq:hover .track{animation-play-state:paused}
+.track i{font-style:normal;display:flex;align-items:center;gap:56px;font-size:17px;font-weight:500;letter-spacing:-.01em;color:#AEBCCE;white-space:nowrap}
+.track i::after{content:"";width:4px;height:4px;border-radius:50%;background:var(--red)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ── cards ────────────────────────────────────── */
+.grid{display:grid;gap:20px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g5{grid-template-columns:repeat(5,1fr)}
+.card{position:relative;padding:30px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,var(--card-2),#0A0F16);overflow:hidden;transition:transform .5s var(--ease),border-color .5s,box-shadow .5s var(--ease)}
+.card::before{content:"";position:absolute;inset:0;opacity:0;transition:opacity .5s;background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%),rgba(124,166,226,.13),transparent 60%)}
+.card:hover{transform:translateY(-6px);border-color:rgba(124,166,226,.34);box-shadow:0 26px 60px -32px rgba(0,0,0,.9)}
+.card:hover::before{opacity:1}
+.card>*{position:relative}
+.card .ic{width:30px;height:30px;color:var(--blue);transition:transform .5s var(--ease)}
+.card:hover .ic{transform:translateY(-2px) scale(1.06)}
+.card .ttl{margin-top:22px}
+.card .body{margin-top:10px}
+
+/* ── program ──────────────────────────────────── */
+.two{display:grid;grid-template-columns:1.9fr 1fr;gap:32px;align-items:start}
+.duo{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,4vw,56px)}
+.duo2{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,4vw,56px);align-items:start}
+.rail{position:relative;padding-left:38px;border-left:1px solid var(--line-blue)}
+.step{position:relative;padding-bottom:34px}
+.step:last-child{padding-bottom:0}
+.step em{position:absolute;left:-44px;top:7px;width:11px;height:11px;border-radius:50%;background:var(--red);box-shadow:0 0 0 5px rgba(255,74,43,.13);transition:box-shadow .5s,transform .5s var(--ease)}
+.step:hover em{transform:scale(1.25);box-shadow:0 0 0 9px rgba(255,74,43,.1)}
+.chip{display:inline-flex;align-items:center;height:27px;padding:0 12px;margin-top:13px;border:1px solid rgba(124,166,226,.3);border-radius:999px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--link);transition:.4s}
+.step:hover .chip{border-color:rgba(124,166,226,.6);background:rgba(124,166,226,.08)}
+.panel{padding:30px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,var(--card-2),#0A0F16)}
+.panel.hot{border-color:rgba(255,74,43,.32);background:#120F0E}
+.panel .row{padding:11px 0;border-top:1px solid rgba(255,255,255,.07);font-size:13.5px;color:#C3CEDD}
+.seam{position:absolute;top:0;left:26px;right:26px;height:1px;background:linear-gradient(90deg,transparent,rgba(124,166,226,.55),transparent)}
+
+/* ── news + events ────────────────────────────── */
+.feat{display:grid;grid-template-columns:1.25fr 1fr;gap:32px}
+.shot{position:relative;height:250px;background:#090E15;border-bottom:1px solid var(--line);overflow:hidden}
+.shot svg{position:absolute;inset:0;width:100%;height:100%}
+.pill{display:inline-flex;align-items:center;height:27px;padding:0 12px;border-radius:999px;background:rgba(255,74,43,.18);color:var(--red-2);font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase}
+.item{display:flex;gap:18px;padding:22px 0;border-top:1px solid var(--line);transition:.45s var(--ease)}
+.item:first-child{border-top:0;padding-top:0}
+.item:hover{transform:translateX(6px)}
+.thumb{width:74px;height:74px;flex:none;border-radius:15px;background:var(--raised);border:1px solid rgba(255,255,255,.08);display:grid;place-items:center;transition:.45s}
+.item:hover .thumb{border-color:rgba(124,166,226,.4)}
+.tabs{display:flex;gap:6px;padding:5px;border:1px solid var(--line);border-radius:999px}
+.tab{height:42px;padding:0 22px;border:0;border-radius:999px;background:transparent;color:var(--tx-body);font-family:var(--sans);font-size:13.5px;font-weight:500;cursor:pointer;transition:.4s var(--ease)}
+.tab[aria-selected="true"]{background:var(--blue);color:#0A0D12}
+.ev{display:flex;align-items:center;gap:28px;padding:26px 6px;border-top:1px solid var(--line);transition:.45s var(--ease)}
+.ev:last-child{border-bottom:1px solid var(--line)}
+.ev:hover{padding-left:16px;background:linear-gradient(90deg,rgba(124,166,226,.05),transparent)}
+.date{width:88px;flex:none;padding:13px 0;border:1px solid rgba(124,166,226,.28);border-radius:15px;text-align:center;transition:.45s}
+.ev:hover .date{border-color:rgba(124,166,226,.6);background:rgba(124,166,226,.06)}
+.date b{display:block;font-family:var(--serif);font-weight:300;font-size:29px;line-height:1.2;color:var(--tx-strong)}
+.fade{animation:fade .5s var(--ease)}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}}
+
+/* ── team ─────────────────────────────────────── */
+.face{position:relative;height:216px;background:var(--raised);border-bottom:1px solid var(--line);overflow:hidden}
+.face svg{position:absolute;inset:0;width:100%;height:100%;transition:transform .8s var(--ease)}
+.person:hover .face svg{transform:scale(1.08)}
+.person{padding:0;overflow:hidden}
+.person .pad{padding:22px}
+.ico{width:42px;height:42px;border:1px solid var(--line-2);border-radius:50%;display:grid;place-items:center;transition:.4s var(--ease)}
+.ico:hover{border-color:var(--blue);background:rgba(124,166,226,.1);transform:translateY(-2px)}
+.slot{border-style:dashed;display:grid;place-items:center;align-content:center;gap:12px;min-height:380px;background:#080D14}
+
+/* ── forms ────────────────────────────────────── */
+label{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--tx-mute)}
+input[type=text],input[type=email],textarea{width:100%;padding:0 16px;height:52px;border:1px solid var(--line-2);border-radius:12px;background:var(--field);color:var(--tx);font-family:var(--sans);font-size:15px;transition:.35s}
+textarea{height:auto;padding:14px 16px;line-height:1.7;resize:vertical}
+input:focus,textarea:focus{outline:0;border-color:rgba(124,166,226,.65);box-shadow:0 0 0 4px rgba(124,166,226,.1)}
+.fld{display:flex;flex-direction:column;gap:10px}
+
+/* ── footer ───────────────────────────────────── */
+footer{position:relative;background:var(--footer);border-top:1px solid var(--line);overflow:hidden}
+.word{font-family:var(--sans);font-weight:600;font-size:clamp(88px,17vw,238px);line-height:.8;letter-spacing:.05em;color:#0B0F16;text-align:center;user-select:none}
+.fgrid{display:grid;grid-template-columns:1.5fr .8fr .8fr 1.3fr;gap:44px}
+
+@media(max-width:1040px){
+  :root{--shell:min(1180px,calc(100vw - 56px))}
+  .g3,.g4,.g5{grid-template-columns:repeat(2,1fr)}
+  .two,.duo,.duo2,.feat,.fgrid{grid-template-columns:1fr}
+  .hero-in{max-width:100%}
+}
+@media(max-width:680px){
+  :root{--shell:calc(100vw - 40px)}
+  .links,.brand .sub,.hint{display:none}
+  .g3,.g4,.g5{grid-template-columns:1fr}
+  .stats{gap:28px}
+  .ev{flex-wrap:wrap;gap:18px}
+  .hero-fx{background:radial-gradient(700px 500px at 50% 30%,rgba(30,55,101,.4),rgba(6,9,14,0) 70%)}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.01ms!important}
+  .rv{opacity:1;transform:none}
+  .w i{transform:none}
+}
 </style>
 </head>
 <body>
 
-<div style="width: 100%; min-width: 1440px; box-sizing: border-box; background: #070A0F; color: #EAF0F8; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 16px; line-height: 1.7; letter-spacing: -0.004em;">
+<div id="prog"></div>
 
-  <!-- ═══════════ NAV ═══════════ -->
-  <div style="position: sticky; top: 0; z-index: 50; width: 100%; box-sizing: border-box; background: rgba(7,10,15,0.88); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.08);">
-    <div style="width: 1120px; margin: 0 auto; height: 80px; display: flex; align-items: center; justify-content: space-between; gap: 32px;">
+<nav id="nav"><div class="shell bar">
+  <a class="brand" href="#hero"><span class="dot"></span><b>GAINN</b>
+    <span class="sub">CRANIA NeuroModulation Institute<br>University of Toronto</span></a>
+  <div class="links">
+    <a href="#about">About</a><a href="#field">The field</a><a href="#program">Program</a>
+    <a href="#news">News</a><a href="#events">Events</a><a href="#team">Team</a>
+    <a href="#contact" class="btn btn-3" style="height:42px"><span>Contact</span></a>
+  </div>
+</div></nav>
 
-      <a href="#top" style="display: flex; align-items: center; gap: 16px; text-decoration: none;">
-        <span style="width: 8px; height: 8px; border-radius: 50%; background: #FF4A2B; box-shadow: 0 0 16px rgba(255,74,43,0.85);"></span>
-        <span style="font-size: 22px; font-weight: 600; letter-spacing: 0.12em; color: #F4F7FB;">GAINN</span>
-        <span style="width: 1px; height: 24px; background: rgba(255,255,255,0.14);"></span>
-        <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; line-height: 1.5; letter-spacing: 0.06em; color: #8593A8;">CRANIA NeuroModulation Institute<br>University of Toronto</span>
-      </a>
+<!-- ════ HERO ════ -->
+<section id="hero">
+  <div id="gl"></div>
+  <div class="hero-fx"></div>
+  <svg class="grain" aria-hidden="true"><filter id="gr"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" fill="transparent" filter="url(#gr)"/></svg>
 
-      <div style="display: flex; align-items: center; gap: 32px;">
-        <a href="#about" style="font-size: 14px; font-weight: 500; color: #B8C4D4;">About</a>
-        <a href="#field" style="font-size: 14px; font-weight: 500; color: #B8C4D4;">The field</a>
-        <a href="#program" style="font-size: 14px; font-weight: 500; color: #B8C4D4;">Program</a>
-        <a href="#news" style="font-size: 14px; font-weight: 500; color: #B8C4D4;">News</a>
-        <a href="#events" style="font-size: 14px; font-weight: 500; color: #B8C4D4;">Events</a>
-        <a href="#team" style="font-size: 14px; font-weight: 500; color: #B8C4D4;">Team</a>
-        <a href="#contact" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 20px; border: 1px solid rgba(124,166,226,0.45); border-radius: 999px; font-size: 14px; font-weight: 500; color: #DCE8F8;">Contact us
-          <svg viewBox="0 0 24 24" style="width: 14px; height: 14px;" fill="none" stroke="#A8C6F0" stroke-width="1.8" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
-        </a>
+  <div class="shell" style="position:relative;z-index:3">
+    <div class="hero-in" id="heroIn">
+      <div class="tag rv"><span class="dot" style="width:6px;height:6px"></span><span>NSERC CREATE · University of Toronto</span></div>
+      <h1 class="display" style="margin-top:28px" id="hl">
+        <span class="w"><i style="--d:.05s">Training</i></span> <span class="w"><i style="--d:.11s">the</i></span>
+        <span class="w"><i style="--d:.17s">engineers</i></span> <span class="w"><i style="--d:.23s">and</i></span>
+        <span class="w"><i style="--d:.29s">clinicians</i></span> <span class="w"><i style="--d:.35s">who</i></span>
+        <span class="w"><i class="it" style="--d:.41s">modulate</i></span> <span class="w"><i style="--d:.47s">the</i></span>
+        <span class="w"><i style="--d:.53s">human</i></span> <span class="w"><i style="--d:.59s">brain.</i></span>
+      </h1>
+      <div class="hero-sub rv" style="--d:.5s"><span class="bar-r"></span>
+        <p class="lede">An NSERC CREATE graduate program pairing neurotechnology research with clinical practice across Toronto's hospitals.</p></div>
+      <div class="cta rv" style="--d:.62s">
+        <a href="#program" class="btn btn-1 mag"><span>Program requirements
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span></a>
+        <a href="#about" class="btn btn-2 mag"><span>About the program</span></a>
       </div>
-
+      <div class="stats rv" style="--d:.74s">
+        <div class="stat"><b data-to="1.65" data-pre="$" data-post="M">$0M</b><i>NSERC CREATE award</i></div>
+        <div class="stat"><b data-to="5">0</b><i>Partner institutions</i></div>
+        <div class="stat"><b style="color:var(--tx-faint)">[##]</b><i>Trainees supported</i></div>
+      </div>
     </div>
   </div>
 
-  <!-- ═══════════ HERO ═══════════ -->
-  <div id="top" style="position: relative; overflow: hidden; width: 100%; box-sizing: border-box; padding: 112px 0 96px; border-bottom: 1px solid rgba(255,255,255,0.07);">
+  <div class="shell" style="position:absolute;left:50%;transform:translateX(-50%);bottom:0;height:0">
+    <div class="cue"><span class="ln"></span><span class="micro">Scroll</span></div>
+    <div class="hint">Move your cursor over the brain</div>
+  </div>
+</section>
 
-    <div style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; pointer-events: none; background-image: radial-gradient(880px 520px at 74% 18%, rgba(30,55,101,0.60), rgba(7,10,15,0) 66%);"></div>
-    <div style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; pointer-events: none; background-image: radial-gradient(rgba(124,166,226,0.15) 1px, rgba(7,10,15,0) 1px); background-size: 32px 32px;"></div>
-    <div style="position: absolute; top: 0; bottom: 0; left: 50%; width: 1120px; margin-left: -560px; pointer-events: none; display: flex; justify-content: space-between;">
-      <span style="width: 1px; background: rgba(255,255,255,0.045);"></span>
-      <span style="width: 1px; background: rgba(255,255,255,0.045);"></span>
-      <span style="width: 1px; background: rgba(255,255,255,0.045);"></span>
-      <span style="width: 1px; background: rgba(255,255,255,0.045);"></span>
-      <span style="width: 1px; background: rgba(255,255,255,0.045);"></span>
+<!-- ════ PARTNER MARQUEE ════ -->
+<div class="band"><div class="shell mq">
+  <span class="mq-lbl">In partnership with</span>
+  <div class="track" id="t1"></div>
+</div></div>
+
+<!-- ════ ABOUT ════ -->
+<section class="sec" id="about"><div class="shell">
+  <div class="head rv"><span class="dot"></span><span class="eyebrow">About us</span><span class="rule"></span></div>
+  <div class="duo">
+    <h2 class="h2 rv">Where neuroscience, engineering and the clinic share a bench.</h2>
+    <p class="lede rv" style="--d:.1s">Neuromodulation moves faster than any single discipline can follow. GAINN trains graduate students across both sides of it — the devices and the patients they treat — inside the CRANIA NeuroModulation Institute and its partner hospitals.</p>
+  </div>
+  <div class="grid g3" style="margin-top:64px">
+    <div class="card rv sp"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M6 9v6a3 3 0 0 0 3 3h6M9 6h6"/></svg>
+      <h3 class="ttl">Cross-disciplinary coursework</h3><p class="body">Engineering, neuroscience and medicine, taught together.</p></div>
+    <div class="card rv sp" style="--d:.08s"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/><path d="M12 8v3M10.5 9.5h3"/></svg>
+      <h3 class="ttl">Clinical immersion</h3><p class="body">Time inside the hospitals where stimulation is delivered.</p></div>
+    <div class="card rv sp" style="--d:.16s"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 17l5-5 4 3 9-9"/><path d="M16 6h5v5"/></svg>
+      <h3 class="ttl">Translation and industry</h3><p class="body">Skills to move neurotech from the lab toward the clinic.</p></div>
+  </div>
+  <div class="card rv" style="margin-top:20px;padding:46px;display:flex;gap:30px;border-color:var(--line-blue);background:#080D15">
+    <span style="font-family:var(--serif);font-size:70px;line-height:.62;color:var(--red)">&ldquo;</span>
+    <div><p class="h3" style="color:#DFE9F6">[PULL QUOTE FROM THE PROGRAM DIRECTOR — one line.]</p>
+      <div style="margin-top:20px;display:flex;align-items:center;gap:14px"><span style="width:30px;height:1px;background:rgba(255,74,43,.85)"></span>
+      <span class="micro" style="color:var(--tx-mute)">Luka Milosevic · Program Director</span></div></div>
+  </div>
+</div></section>
+
+<!-- ════ CONDITIONS ════ -->
+<div class="band"><div class="shell mq">
+  <span class="mq-lbl">Conditions in scope</span>
+  <div class="track rev" id="t2"></div>
+</div></div>
+
+<!-- ════ FIELD ════ -->
+<section class="sec" id="field"><div class="shell">
+  <div class="head rv"><span class="dot"></span><span class="eyebrow">The field</span><span class="rule"></span></div>
+  <h2 class="h2 rv" style="max-width:620px">The modalities trainees work across</h2>
+  <div class="grid g3" style="margin-top:56px">
+    <div class="card rv sp"><h3 class="ttl">Deep brain stimulation</h3><p class="body" style="margin-top:10px">Implanted electrodes reaching subcortical targets.</p></div>
+    <div class="card rv sp" style="--d:.06s"><h3 class="ttl">Spinal and peripheral</h3><p class="body" style="margin-top:10px">Interfaces for movement and chronic pain.</p></div>
+    <div class="card rv sp" style="--d:.12s"><h3 class="ttl">Non-invasive stimulation</h3><p class="body" style="margin-top:10px">Delivered through the skull, no implant.</p></div>
+    <div class="card rv sp" style="--d:.18s"><h3 class="ttl">Optogenetics</h3><p class="body" style="margin-top:10px">Light switching single populations of neurons.</p></div>
+    <div class="card rv sp" style="--d:.24s"><h3 class="ttl">Brain–computer interfaces</h3><p class="body" style="margin-top:10px">Neural activity decoded into control.</p></div>
+    <div class="card rv sp" style="--d:.3s"><h3 class="ttl">Machine learning</h3><p class="body" style="margin-top:10px">Models that turn recordings into decisions.</p></div>
+  </div>
+</div></section>
+
+<!-- ════ PROGRAM ════ -->
+<section class="sec band" id="program"><div class="shell">
+  <div class="head rv"><span class="dot"></span><span class="eyebrow">Program requirements</span><span class="rule"></span></div>
+  <h2 class="h2 rv" style="max-width:620px;margin-bottom:56px">What it takes to complete GAINN</h2>
+  <div class="two">
+    <div class="rail rv">
+      <div class="step"><em></em><h3 class="ttl">Core coursework</h3><p class="body" style="margin-top:8px">Graduate courses including the core neuromodulation course.</p><span class="chip">[X credits]</span></div>
+      <div class="step"><em></em><h3 class="ttl">Workshops and seminars</h3><p class="body" style="margin-top:8px">The CNMI workshop series and annual trainee symposium.</p><span class="chip">[Per year]</span></div>
+      <div class="step"><em></em><h3 class="ttl">Clinical or industry placement</h3><p class="body" style="margin-top:8px">Supervised, with a partner hospital or company.</p><span class="chip">[Duration]</span></div>
+      <div class="step"><em></em><h3 class="ttl">Professional skills</h3><p class="body" style="margin-top:8px">Communication, ethics, entrepreneurship, equity in research.</p><span class="chip">[Modules]</span></div>
+      <div class="step"><em></em><h3 class="ttl">Thesis in the field</h3><p class="body" style="margin-top:8px">Supervised by a participating faculty member.</p><span class="chip">Required</span></div>
     </div>
-    <svg style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; opacity: 0.20; pointer-events: none;" aria-hidden="true">
-      <filter id="grain-hero"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
-      <rect width="100%" height="100%" fill="transparent" filter="url(#grain-hero)"></rect>
-    </svg>
-
-    <div style="position: relative; width: 1120px; margin: 0 auto; display: flex; gap: 64px; align-items: center;">
-
-      <div style="width: 640px; display: flex; flex-direction: column; align-items: flex-start;">
-
-        <div style="display: inline-flex; align-items: center; gap: 10px; height: 34px; padding: 0 16px 0 12px; border: 1px solid rgba(124,166,226,0.30); border-radius: 999px; background: rgba(30,55,101,0.24);">
-          <span style="width: 6px; height: 6px; border-radius: 50%; background: #FF4A2B;"></span>
-          <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #A8C6F0;">NSERC CREATE · University of Toronto</span>
-        </div>
-
-        <h1 style="margin: 32px 0 0; font-family: 'Instrument Serif', 'Times New Roman', serif; font-weight: 400; font-size: 84px; line-height: 1.0; letter-spacing: -0.025em; color: #F7FAFE;">Training the engineers and clinicians who will <span style="font-style: italic; color: #9EC0EE;">modulate</span> the human brain.</h1>
-
-        <div style="margin-top: 32px; display: flex; align-items: flex-start; gap: 24px;">
-          <span style="width: 56px; height: 1px; background: rgba(255,74,43,0.9); margin-top: 15px; flex-shrink: 0;"></span>
-          <p style="margin: 0; width: 520px; font-size: 18px; line-height: 1.7; letter-spacing: -0.004em; color: #A9B6C8;">Graduate Advancement in Neuromodulation and Neurotechnology is a national training program pairing advanced brain-stimulation research with hands-on clinical exposure across Toronto's hospital network.</p>
-        </div>
-
-        <div style="margin-top: 40px; display: flex; align-items: center; gap: 16px;">
-          <a href="#program" style="display: inline-flex; align-items: center; gap: 12px; height: 56px; padding: 0 24px 0 28px; border-radius: 999px; background: #FF4A2B; color: #0A0D12; font-size: 15px; font-weight: 600; letter-spacing: 0;">Program requirements
-            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#0A0D12" stroke-width="2" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
-          </a>
-          <a href="#about" style="display: inline-flex; align-items: center; justify-content: center; height: 56px; padding: 0 28px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18); color: #E6EDF7; font-size: 15px; font-weight: 500;">About the program</a>
-        </div>
-
-        <div style="margin-top: 48px; display: flex; align-items: center; gap: 16px;">
-          <span style="width: 1px; height: 32px; background: linear-gradient(to bottom, rgba(124,166,226,0.75), rgba(124,166,226,0));"></span>
-          <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: #6E7E93;">Scroll</span>
-        </div>
-
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div class="panel rv" style="--d:.08s"><span class="eyebrow">Who can apply</span>
+        <p class="body" style="margin:14px 0 20px">Master's and doctoral students in:</p>
+        <div class="row">Biomedical Engineering — MASc, PhD</div>
+        <div class="row">Electrical &amp; Computer Engineering</div>
+        <div class="row">Chemical Engineering &amp; Applied Chemistry</div>
+        <div class="row">Materials Science &amp; Engineering</div>
+        <div class="row">Mechanical &amp; Industrial Engineering</div>
+        <div class="row">Medical Science — MSc, PhD</div>
       </div>
+      <div class="panel hot rv" style="--d:.16s;position:relative;overflow:hidden">
+        <span class="seam" style="background:linear-gradient(90deg,transparent,rgba(255,74,43,.6),transparent)"></span>
+        <span class="eyebrow" style="color:var(--red-2)">Applications</span>
+        <p class="body" style="margin:14px 0 22px;color:#C9BDB8">Next intake opens [APPLICATION DATE].</p>
+        <a href="#contact" class="btn btn-1 mag" style="height:48px;font-size:13.5px"><span>Request details
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span></a>
+      </div>
+    </div>
+  </div>
+</div></section>
 
-      <div style="position: relative; width: 416px; box-sizing: border-box; padding: 32px; border: 1px solid rgba(255,255,255,0.11); border-radius: 24px; background: linear-gradient(180deg, #0E1620 0%, #0A0F16 100%); display: flex; flex-direction: column; overflow: hidden;">
-
-        <span style="position: absolute; top: 0; left: 24px; right: 24px; height: 1px; background: linear-gradient(90deg, rgba(124,166,226,0), rgba(124,166,226,0.55), rgba(124,166,226,0));"></span>
-
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-          <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #7CA6E2;">Program at a glance</span>
-          <span style="display: flex; gap: 6px;">
-            <span style="width: 5px; height: 5px; border-radius: 50%; background: rgba(124,166,226,0.45);"></span>
-            <span style="width: 5px; height: 5px; border-radius: 50%; background: rgba(124,166,226,0.45);"></span>
-            <span style="width: 5px; height: 5px; border-radius: 50%; background: #FF4A2B;"></span>
-          </span>
-        </div>
-
-        <img src="assets/gainn-logo-dark.png" alt="GAINN — Graduate Advancement in Neuromodulation and Neurotech" style="width: 100%; height: auto; display: block; margin-top: 24px;">
-
-        <svg viewBox="0 0 352 144" style="width: 100%; height: 144px; display: block; margin-top: 24px;" aria-hidden="true">
-          <g stroke="rgba(124,166,226,0.30)" stroke-width="1" fill="none">
-            <path d="M16 112 L66 70 L124 92 L178 42 L238 74 L290 36 L336 62"></path>
-            <path d="M16 112 L84 128 L146 110 L208 128 L272 106 L336 120"></path>
-            <path d="M66 70 L84 128 M124 92 L146 110 M178 42 L208 128 M238 74 L272 106 M290 36 L336 120"></path>
-            <path d="M66 70 L124 92 L178 42"></path>
-          </g>
-          <g fill="#7CA6E2">
-            <circle cx="66" cy="70" r="3.5"></circle>
-            <circle cx="124" cy="92" r="3.5"></circle>
-            <circle cx="238" cy="74" r="3.5"></circle>
-            <circle cx="84" cy="128" r="3"></circle>
-            <circle cx="208" cy="128" r="3"></circle>
-            <circle cx="336" cy="62" r="3"></circle>
-            <circle cx="336" cy="120" r="3"></circle>
-            <circle cx="16" cy="112" r="3"></circle>
-          </g>
-          <g fill="#FF4A2B">
-            <circle cx="178" cy="42" r="6.5"></circle>
-            <circle cx="290" cy="36" r="4.5"></circle>
-            <circle cx="146" cy="110" r="4"></circle>
-            <circle cx="272" cy="106" r="3.5"></circle>
-          </g>
+<!-- ════ NEWS ════ -->
+<section class="sec" id="news"><div class="shell">
+  <div class="head rv"><span class="dot"></span><span class="eyebrow">News</span><span class="rule"></span>
+    <a href="#news" class="micro" style="color:var(--link)">View all →</a></div>
+  <div class="feat">
+    <article class="card rv" style="padding:0">
+      <div class="shot">
+        <svg viewBox="0 0 640 250" preserveAspectRatio="none" aria-hidden="true">
+          <g stroke="rgba(124,166,226,.22)" fill="none"><path d="M-10 196 L86 132 L176 162 L276 80 L376 126 L476 64 L576 108 L650 62"/>
+          <path d="M-10 218 L106 232 L206 206 L316 230 L426 198 L536 220 L650 188"/>
+          <path d="M86 132 L106 232 M176 162 L206 206 M276 80 L316 230 M376 126 L426 198"/></g>
+          <g fill="#7CA6E2"><circle cx="86" cy="132" r="3.5"/><circle cx="376" cy="126" r="3.5"/><circle cx="576" cy="108" r="3"/></g>
+          <g fill="#FF4A2B"><circle cx="276" cy="80" r="6"/><circle cx="476" cy="64" r="4.5"/></g>
         </svg>
-
-        <div style="margin-top: 24px; display: flex; flex-direction: column;">
-          <div style="display: flex; align-items: baseline; justify-content: space-between; height: 56px; border-top: 1px solid rgba(255,255,255,0.09);">
-            <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8593A8; padding-top: 20px;">NSERC CREATE award</span>
-            <span style="font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 32px; line-height: 1; font-variant-numeric: tabular-nums; color: #F4F8FD; padding-top: 20px;">$1.65M</span>
-          </div>
-          <div style="display: flex; align-items: baseline; justify-content: space-between; height: 56px; border-top: 1px solid rgba(255,255,255,0.09);">
-            <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8593A8; padding-top: 20px;">Partner institutions</span>
-            <span style="font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 32px; line-height: 1; font-variant-numeric: tabular-nums; color: #F4F8FD; padding-top: 20px;">5</span>
-          </div>
-          <div style="display: flex; align-items: baseline; justify-content: space-between; height: 56px; border-top: 1px solid rgba(255,255,255,0.09);">
-            <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8593A8; padding-top: 20px;">Trainees supported</span>
-            <span style="font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 32px; line-height: 1; font-variant-numeric: tabular-nums; color: #6E7E93; padding-top: 20px;">[##]</span>
-          </div>
-        </div>
-
+        <span class="micro" style="position:absolute;left:28px;bottom:20px">[Feature image]</span>
+        <span class="pill" style="position:absolute;right:28px;top:22px">Featured</span>
       </div>
-
+      <div style="padding:34px">
+        <span class="micro" style="letter-spacing:.06em;text-transform:none">[DATE] · U of T Engineering News</span>
+        <h3 class="h3" style="margin-top:16px">Luka Milosevic awarded NSERC CREATE grant to advance neuromodulation training</h3>
+        <p class="body" style="margin-top:16px">A $1.65M award establishes a new graduate training initiative in neurotechnology.</p>
+        <a href="#news" style="display:inline-block;margin-top:22px;font-size:14px;font-weight:500">Read the announcement →</a>
+      </div>
+    </article>
+    <div class="rv" style="--d:.1s">
+      <div class="item"><div class="thumb"><span class="micro" style="font-size:8.5px">[IMG]</span></div>
+        <div><span class="micro" style="letter-spacing:.06em;text-transform:none">[DATE] · [CATEGORY]</span><h3 class="ttl" style="margin-top:6px;font-size:17px">[NEWS HEADLINE]</h3></div></div>
+      <div class="item"><div class="thumb"><span class="micro" style="font-size:8.5px">[IMG]</span></div>
+        <div><span class="micro" style="letter-spacing:.06em;text-transform:none">[DATE] · [CATEGORY]</span><h3 class="ttl" style="margin-top:6px;font-size:17px">[NEWS HEADLINE]</h3></div></div>
+      <div class="item"><div class="thumb"><span class="micro" style="font-size:8.5px">[IMG]</span></div>
+        <div><span class="micro" style="letter-spacing:.06em;text-transform:none">[DATE] · [CATEGORY]</span><h3 class="ttl" style="margin-top:6px;font-size:17px">[NEWS HEADLINE]</h3></div></div>
+      <div class="item" style="opacity:.55"><div class="thumb" style="border-style:dashed"><span class="micro" style="font-size:8.5px">[IMG]</span></div>
+        <div><span class="micro" style="letter-spacing:.06em;text-transform:none">[DATE]</span><h3 class="ttl" style="margin-top:6px;font-size:17px;color:var(--tx-faint)">[ADD NEWS ITEM]</h3></div></div>
     </div>
   </div>
+</div></section>
 
-  <!-- ═══════════ PARTNER STRIP ═══════════ -->
-  <div style="position: relative; overflow: hidden; width: 100%; box-sizing: border-box; border-bottom: 1px solid rgba(255,255,255,0.07); background: #090D13;">
-    <svg style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; opacity: 0.12; pointer-events: none;" aria-hidden="true">
-      <filter id="grain-strip"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
-      <rect width="100%" height="100%" fill="transparent" filter="url(#grain-strip)"></rect>
-    </svg>
-    <div style="position: relative; width: 1120px; margin: 0 auto; height: 112px; display: flex; align-items: stretch;">
-      <div style="display: flex; align-items: center; padding-right: 32px;">
-        <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; line-height: 1.6; letter-spacing: 0.20em; text-transform: uppercase; color: #6E7E93;">In<br>partnership<br>with</span>
-      </div>
-      <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(255,255,255,0.07);">
-        <span style="font-size: 18px; font-weight: 500; letter-spacing: -0.01em; color: #AEBCCE;">University of Toronto</span>
-      </div>
-      <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(255,255,255,0.07);">
-        <span style="font-size: 18px; font-weight: 500; letter-spacing: -0.01em; color: #AEBCCE;">UHN</span>
-      </div>
-      <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(255,255,255,0.07);">
-        <span style="font-size: 18px; font-weight: 500; letter-spacing: -0.01em; color: #AEBCCE;">SickKids</span>
-      </div>
-      <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(255,255,255,0.07);">
-        <span style="font-size: 18px; font-weight: 500; letter-spacing: -0.01em; color: #AEBCCE;">CAMH</span>
-      </div>
-      <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(255,255,255,0.07);">
-        <span style="font-size: 18px; font-weight: 500; letter-spacing: -0.01em; color: #AEBCCE;">Sunnybrook</span>
+<!-- ════ EVENTS ════ -->
+<section class="sec band" id="events"><div class="shell">
+  <div class="head rv"><span class="dot"></span><span class="eyebrow">Events</span><span class="rule"></span></div>
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:28px;flex-wrap:wrap;margin-bottom:44px">
+    <h2 class="h2 rv">Seminars, symposia and workshops</h2>
+    <div class="tabs rv" role="tablist"><button class="tab" role="tab" aria-selected="true" data-p="up">Upcoming</button><button class="tab" role="tab" aria-selected="false" data-p="past">Past</button></div>
+  </div>
+  <div id="up" class="rv">
+    <div class="ev"><div class="date"><span class="micro" style="color:var(--blue)">[MON]</span><b>[00]</b></div>
+      <div style="flex:1"><h3 class="ttl" style="font-size:22px">[EVENT TITLE — annual trainee symposium]</h3><p class="body" style="margin-top:6px">[LOCATION] · [TIME] · [REGISTRATION]</p></div>
+      <a href="#events" class="btn btn-3 mag"><span>Register</span></a></div>
+    <div class="ev"><div class="date"><span class="micro" style="color:var(--blue)">[MON]</span><b>[00]</b></div>
+      <div style="flex:1"><h3 class="ttl" style="font-size:22px">[EVENT TITLE — neurotechnology workshop]</h3><p class="body" style="margin-top:6px">[LOCATION] · [TIME] · [REGISTRATION]</p></div>
+      <a href="#events" class="btn btn-3 mag"><span>Register</span></a></div>
+    <div class="ev"><div class="date"><span class="micro" style="color:var(--blue)">[MON]</span><b>[00]</b></div>
+      <div style="flex:1"><h3 class="ttl" style="font-size:22px">[EVENT TITLE — guest lecture]</h3><p class="body" style="margin-top:6px">[LOCATION] · [TIME] · [REGISTRATION]</p></div>
+      <a href="#events" class="btn btn-3 mag"><span>Register</span></a></div>
+  </div>
+  <div id="past" hidden>
+    <div class="ev"><div class="date" style="border-color:var(--line-2)"><span class="micro">[MON]</span><b style="color:#AEBCCE">[00]</b></div>
+      <div style="flex:1"><h3 class="ttl" style="font-size:22px;color:#C3CEDD">[PAST EVENT TITLE]</h3><p class="body" style="margin-top:6px">[LOCATION] · [RECAP LINK]</p></div>
+      <a href="#events" class="btn btn-3 mag"><span>Recap</span></a></div>
+    <div class="ev"><div class="date" style="border-color:var(--line-2)"><span class="micro">[MON]</span><b style="color:#AEBCCE">[00]</b></div>
+      <div style="flex:1"><h3 class="ttl" style="font-size:22px;color:#C3CEDD">[PAST EVENT TITLE]</h3><p class="body" style="margin-top:6px">[LOCATION] · [RECAP LINK]</p></div>
+      <a href="#events" class="btn btn-3 mag"><span>Recap</span></a></div>
+  </div>
+</div></section>
+
+<!-- ════ TEAM ════ -->
+<section class="sec" id="team"><div class="shell">
+  <div class="head rv"><span class="dot"></span><span class="eyebrow">Team</span><span class="rule"></span></div>
+  <h2 class="h2 rv" style="margin-bottom:48px">Core team</h2>
+  <div class="grid g4" id="people"></div>
+
+  <div class="head rv" style="margin-top:88px"><span class="eyebrow">Partners</span><span class="rule"></span></div>
+  <div class="grid g5" id="partners"></div>
+</div></section>
+
+<!-- ════ CONTACT ════ -->
+<section class="sec band" id="contact"><div class="shell">
+  <div class="head rv"><span class="dot"></span><span class="eyebrow">Contact us</span><span class="rule"></span></div>
+  <div class="duo2">
+    <div class="rv">
+      <h2 class="h2">Talk to the program office</h2>
+      <p class="lede" style="margin-top:22px">Questions on eligibility, supervision or partnership are welcome.</p>
+      <div style="margin-top:36px">
+        <div style="padding:20px 0;border-top:1px solid var(--line)"><span class="micro">Email</span>
+          <div style="margin-top:8px"><a href="mailto:info.cnmi@utoronto.ca" style="font-size:17px">info.cnmi@utoronto.ca</a></div></div>
+        <div style="padding:20px 0;border-top:1px solid var(--line)"><span class="micro">Office</span>
+          <p style="margin-top:8px;font-size:15px;color:#C3CEDD">Toronto Western Hospital, McLaughlin Wing, 14th Floor<br>399 Bathurst Street, Toronto</p></div>
+        <div style="padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><span class="micro">Phone</span>
+          <p style="margin-top:8px;font-size:15px;color:#C3CEDD">[PHONE NUMBER]</p></div>
       </div>
     </div>
-  </div>
-
-  <!-- ═══════════ 01 ABOUT ═══════════ -->
-  <div id="about" style="position: relative; overflow: hidden; width: 100%; box-sizing: border-box; padding: 128px 0;">
-    <div style="position: absolute; top: 64px; left: 50%; margin-left: 264px; pointer-events: none; font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 288px; line-height: 0.8; letter-spacing: -0.03em; color: rgba(124,166,226,0.055);">01</div>
-
-    <div style="position: relative; width: 1120px; margin: 0 auto;">
-
-      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 48px;">
-        <span style="width: 7px; height: 7px; border-radius: 50%; background: #FF4A2B;"></span>
-        <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #7CA6E2;">01 — About us</span>
-        <span style="flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03));"></span>
+    <div class="card rv" style="--d:.1s;padding:36px">
+      <span class="seam"></span>
+      <div style="display:flex;gap:20px;flex-wrap:wrap">
+        <div class="fld" style="flex:1;min-width:180px"><label for="n">Full name</label><input id="n" type="text" placeholder="Your name"></div>
+        <div class="fld" style="flex:1;min-width:180px"><label for="e">Email</label><input id="e" type="email" placeholder="you@utoronto.ca"></div>
       </div>
-
-      <div style="display: flex; gap: 64px; align-items: flex-start;">
-        <h2 style="width: 528px; margin: 0; font-family: 'Instrument Serif', 'Times New Roman', serif; font-weight: 400; font-size: 56px; line-height: 1.05; letter-spacing: -0.02em; color: #F3F7FC;">One program where neuroscience, engineering and the clinic finally share a bench.</h2>
-        <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 24px; padding-top: 8px;">
-          <p style="margin: 0; font-size: 17px; line-height: 1.75; color: #A9B6C8;">Neuromodulation-based therapies are moving faster than any single discipline can follow. GAINN gives graduate trainees integrated training that bridges the clinical and engineering dimensions of the field, alongside exposure to the patients, operating rooms and emerging technologies shaping brain health research.</p>
-          <p style="margin: 0; font-size: 17px; line-height: 1.75; color: #A9B6C8;">The program is delivered through the CRANIA NeuroModulation Institute at the University of Toronto, with research and clinical placements hosted across its partner hospitals.</p>
-        </div>
-      </div>
-
-      <div style="margin-top: 64px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.10); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
-
-        <div style="box-sizing: border-box; padding: 32px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%); display: flex; flex-direction: column;">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <svg viewBox="0 0 24 24" style="width: 28px; height: 28px;" fill="none" stroke="#7CA6E2" stroke-width="1.4" aria-hidden="true">
-              <circle cx="6" cy="6" r="3"></circle><circle cx="18" cy="18" r="3"></circle><circle cx="18" cy="6" r="3"></circle>
-              <path d="M6 9v6a3 3 0 0 0 3 3h6M9 6h6"></path>
-            </svg>
-            <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; color: #4F5D70;">01</span>
-          </div>
-          <h3 style="margin: 24px 0 0; font-size: 20px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">Cross-disciplinary coursework</h3>
-          <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.7; color: #95A3B7;">Graduate courses and workshops drawn from engineering, neuroscience and medicine, taught by neuromodulation researchers and practising clinicians.</p>
-        </div>
-
-        <div style="box-sizing: border-box; padding: 32px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%); display: flex; flex-direction: column;">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <svg viewBox="0 0 24 24" style="width: 28px; height: 28px;" fill="none" stroke="#7CA6E2" stroke-width="1.4" aria-hidden="true">
-              <path d="M4 20V9l8-5 8 5v11"></path><path d="M9 20v-6h6v6"></path><path d="M12 8v3M10.5 9.5h3"></path>
-            </svg>
-            <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; color: #4F5D70;">02</span>
-          </div>
-          <h3 style="margin: 24px 0 0; font-size: 20px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">Clinical immersion</h3>
-          <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.7; color: #95A3B7;">Placements inside hospital environments, so trainees see how stimulation therapies are actually delivered, monitored and adjusted for patients.</p>
-        </div>
-
-        <div style="box-sizing: border-box; padding: 32px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%); display: flex; flex-direction: column;">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <svg viewBox="0 0 24 24" style="width: 28px; height: 28px;" fill="none" stroke="#7CA6E2" stroke-width="1.4" aria-hidden="true">
-              <path d="M3 17l5-5 4 3 9-9"></path><path d="M16 6h5v5"></path>
-            </svg>
-            <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; color: #4F5D70;">03</span>
-          </div>
-          <h3 style="margin: 24px 0 0; font-size: 20px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">Translation and industry</h3>
-          <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.7; color: #95A3B7;">Professional skills, entrepreneurship and industry partnership training aimed at moving neurotechnology from the lab toward approved clinical use.</p>
-        </div>
-
-      </div>
-
-      <div style="margin-top: 24px; box-sizing: border-box; padding: 48px; border: 1px solid rgba(124,166,226,0.22); border-radius: 20px; background: #090E15; display: flex; gap: 32px; align-items: flex-start;">
-        <span style="font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 72px; line-height: 0.64; color: #FF4A2B;">“</span>
-        <div style="flex-grow: 1;">
-          <p style="margin: 0; font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 30px; line-height: 1.4; letter-spacing: -0.012em; color: #DFE9F6;">[PULL QUOTE FROM THE PROGRAM DIRECTOR — one or two sentences on why this training program matters now.]</p>
-          <div style="margin-top: 24px; display: flex; align-items: center; gap: 16px;">
-            <span style="width: 32px; height: 1px; background: rgba(255,74,43,0.85);"></span>
-            <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #8593A8;">Luka Milosevic · Program Director</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ═══════════ CONDITIONS BAND ═══════════ -->
-  <div style="position: relative; overflow: hidden; width: 100%; box-sizing: border-box; padding: 40px 0; background: #090D13; border-top: 1px solid rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.07);">
-    <svg style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; opacity: 0.12; pointer-events: none;" aria-hidden="true">
-      <filter id="grain-cond"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
-      <rect width="100%" height="100%" fill="transparent" filter="url(#grain-cond)"></rect>
-    </svg>
-    <div style="position: relative; width: 1120px; margin: 0 auto; display: flex; align-items: center; gap: 32px;">
-      <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #6E7E93; white-space: nowrap;">Conditions in scope</span>
-      <div style="flex-grow: 1; display: flex; align-items: center; justify-content: space-between; gap: 16px;">
-        <span style="font-size: 16px; color: #AEBCCE;">Parkinson's disease</span>
-        <span style="width: 4px; height: 4px; border-radius: 50%; background: #FF4A2B; flex-shrink: 0;"></span>
-        <span style="font-size: 16px; color: #AEBCCE;">Epilepsy</span>
-        <span style="width: 4px; height: 4px; border-radius: 50%; background: #FF4A2B; flex-shrink: 0;"></span>
-        <span style="font-size: 16px; color: #AEBCCE;">Stroke</span>
-        <span style="width: 4px; height: 4px; border-radius: 50%; background: #FF4A2B; flex-shrink: 0;"></span>
-        <span style="font-size: 16px; color: #AEBCCE;">Depression</span>
-        <span style="width: 4px; height: 4px; border-radius: 50%; background: #FF4A2B; flex-shrink: 0;"></span>
-        <span style="font-size: 16px; color: #AEBCCE;">Chronic pain</span>
-        <span style="width: 4px; height: 4px; border-radius: 50%; background: #FF4A2B; flex-shrink: 0;"></span>
-        <span style="font-size: 16px; color: #AEBCCE;">Spinal cord injury</span>
-        <span style="width: 4px; height: 4px; border-radius: 50%; background: #FF4A2B; flex-shrink: 0;"></span>
-        <span style="font-size: 16px; color: #AEBCCE;">Alzheimer's disease</span>
+      <div class="fld" style="margin-top:20px"><label for="a">Affiliation</label><input id="a" type="text" placeholder="Department or company"></div>
+      <div class="fld" style="margin-top:20px"><label for="m">Message</label><textarea id="m" rows="4" placeholder="How can we help?"></textarea></div>
+      <div style="margin-top:20px;display:flex;align-items:center;gap:11px"><input id="c" type="checkbox" style="width:17px;height:17px;accent-color:var(--red)"><label for="c" style="font-family:var(--sans);font-size:13.5px;letter-spacing:-.004em;text-transform:none;color:var(--tx-mute)">Add me to the mailing list</label></div>
+      <div style="margin-top:28px;padding-top:22px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+        <span style="font-size:13px;color:var(--tx-faint)">We reply within [X] days.</span>
+        <button class="btn btn-1 mag"><span>Send message</span></button>
       </div>
     </div>
   </div>
-
-  <!-- ═══════════ 02 THE FIELD ═══════════ -->
-  <div id="field" style="position: relative; overflow: hidden; width: 100%; box-sizing: border-box; padding: 128px 0;">
-    <div style="position: absolute; top: 64px; left: 50%; margin-left: 264px; pointer-events: none; font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 288px; line-height: 0.8; letter-spacing: -0.03em; color: rgba(124,166,226,0.055);">02</div>
-
-    <div style="position: relative; width: 1120px; margin: 0 auto;">
-
-      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 48px;">
-        <span style="width: 7px; height: 7px; border-radius: 50%; background: #FF4A2B;"></span>
-        <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #7CA6E2;">02 — The field</span>
-        <span style="flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03));"></span>
-      </div>
-
-      <div style="display: flex; gap: 64px; align-items: flex-end; margin-bottom: 64px;">
-        <h2 style="width: 640px; margin: 0; font-family: 'Instrument Serif', 'Times New Roman', serif; font-weight: 400; font-size: 56px; line-height: 1.05; letter-spacing: -0.02em; color: #F3F7FC;">The modalities trainees work across</h2>
-        <p style="flex-grow: 1; margin: 0; font-size: 16px; line-height: 1.75; color: #95A3B7;">Implantable and non-implantable technologies that interface with the nervous system — and the computation that makes sense of what comes back.</p>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
-
-        <div style="box-sizing: border-box; padding: 32px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%);">
-          <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; color: #FF4A2B;">M01</span>
-          <h3 style="margin: 16px 0 0; font-size: 19px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">Deep brain stimulation</h3>
-          <p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #8B99AD;">Implanted electrodes delivering targeted stimulation to subcortical structures.</p>
-        </div>
-
-        <div style="box-sizing: border-box; padding: 32px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%);">
-          <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; color: #FF4A2B;">M02</span>
-          <h3 style="margin: 16px 0 0; font-size: 19px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">Spinal and peripheral stimulation</h3>
-          <p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #8B99AD;">Interfaces with the spinal cord and peripheral nerves for movement and pain.</p>
-        </div>
-
-        <div style="box-sizing: border-box; padding: 32px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%);">
-          <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; color: #FF4A2B;">M03</span>
-          <h3 style="margin: 16px 0 0; font-size: 19px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">Non-invasive stimulation</h3>
-          <p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #8B99AD;">Stimulation delivered through the skull, without an implanted device.</p>
-        </div>
-
-        <div style="box-sizing: border-box; padding: 32px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%);">
-          <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; color: #FF4A2B;">M04</span>
-          <h3 style="margin: 16px 0 0; font-size: 19px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">Optical interfaces and optogenetics</h3>
-          <p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #8B99AD;">Light used to activate or inhibit specific neurons with high precision.</p>
-        </div>
-
-        <div style="box-sizing: border-box; padding: 32px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%);">
-          <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; color: #FF4A2B;">M05</span>
-          <h3 style="margin: 16px 0 0; font-size: 19px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">Brain–computer interfaces</h3>
-          <p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #8B99AD;">Decoding neural activity into control signals for devices and prosthetics.</p>
-        </div>
-
-        <div style="box-sizing: border-box; padding: 32px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%);">
-          <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; color: #FF4A2B;">M06</span>
-          <h3 style="margin: 16px 0 0; font-size: 19px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">Machine learning and big data</h3>
-          <p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #8B99AD;">Signal analysis and models that turn recorded activity into therapy decisions.</p>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ═══════════ 03 PROGRAM REQUIREMENTS ═══════════ -->
-  <div id="program" style="position: relative; overflow: hidden; width: 100%; box-sizing: border-box; padding: 128px 0; background: #090D13; border-top: 1px solid rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.07);">
-    <svg style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; opacity: 0.12; pointer-events: none;" aria-hidden="true">
-      <filter id="grain-prog"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
-      <rect width="100%" height="100%" fill="transparent" filter="url(#grain-prog)"></rect>
-    </svg>
-    <div style="position: absolute; top: 64px; left: 50%; margin-left: 264px; pointer-events: none; font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 288px; line-height: 0.8; letter-spacing: -0.03em; color: rgba(124,166,226,0.05);">03</div>
-
-    <div style="position: relative; width: 1120px; margin: 0 auto;">
-
-      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 48px;">
-        <span style="width: 7px; height: 7px; border-radius: 50%; background: #FF4A2B;"></span>
-        <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #7CA6E2;">03 — Program requirements</span>
-        <span style="flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03));"></span>
-      </div>
-
-      <div style="display: flex; gap: 64px; align-items: flex-end; margin-bottom: 64px;">
-        <h2 style="width: 640px; margin: 0; font-family: 'Instrument Serif', 'Times New Roman', serif; font-weight: 400; font-size: 56px; line-height: 1.05; letter-spacing: -0.02em; color: #F3F7FC;">What it takes to complete GAINN</h2>
-        <p style="flex-grow: 1; margin: 0; font-size: 16px; line-height: 1.75; color: #95A3B7;">Completed alongside the degree requirements of the trainee's home graduate unit. Final wording to be confirmed by the program committee.</p>
-      </div>
-
-      <div style="display: flex; gap: 32px; align-items: flex-start;">
-
-        <div style="width: 664px; position: relative; padding-left: 40px; border-left: 1px solid rgba(124,166,226,0.24);">
-
-          <div style="position: relative; padding-bottom: 40px;">
-            <span style="position: absolute; left: -46px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #FF4A2B; box-shadow: 0 0 0 5px rgba(255,74,43,0.14);"></span>
-            <div style="display: flex; align-items: baseline; gap: 16px;">
-              <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.16em; color: #FF8A73;">R1</span>
-              <h3 style="margin: 0; font-size: 21px; font-weight: 600; line-height: 1.3; letter-spacing: -0.014em; color: #EDF2F9;">Core neuromodulation coursework</h3>
-            </div>
-            <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.75; color: #95A3B7;">[NUMBER] graduate courses from the participating units, including the core neuromodulation and neurotechnology course.</p>
-            <span style="display: inline-flex; align-items: center; height: 28px; padding: 0 12px; margin-top: 16px; border: 1px solid rgba(124,166,226,0.28); border-radius: 999px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #A8C6F0;">[X credits]</span>
-          </div>
-
-          <div style="position: relative; padding-bottom: 40px;">
-            <span style="position: absolute; left: -46px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #FF4A2B; box-shadow: 0 0 0 5px rgba(255,74,43,0.14);"></span>
-            <div style="display: flex; align-items: baseline; gap: 16px;">
-              <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.16em; color: #FF8A73;">R2</span>
-              <h3 style="margin: 0; font-size: 21px; font-weight: 600; line-height: 1.3; letter-spacing: -0.014em; color: #EDF2F9;">Workshops and seminar series</h3>
-            </div>
-            <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.75; color: #95A3B7;">Attendance at the workshops organised by the CRANIA NeuroModulation Institute, plus the annual trainee symposium.</p>
-            <span style="display: inline-flex; align-items: center; height: 28px; padding: 0 12px; margin-top: 16px; border: 1px solid rgba(124,166,226,0.28); border-radius: 999px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #A8C6F0;">[Per year]</span>
-          </div>
-
-          <div style="position: relative; padding-bottom: 40px;">
-            <span style="position: absolute; left: -46px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #FF4A2B; box-shadow: 0 0 0 5px rgba(255,74,43,0.14);"></span>
-            <div style="display: flex; align-items: baseline; gap: 16px;">
-              <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.16em; color: #FF8A73;">R3</span>
-              <h3 style="margin: 0; font-size: 21px; font-weight: 600; line-height: 1.3; letter-spacing: -0.014em; color: #EDF2F9;">Clinical or industry placement</h3>
-            </div>
-            <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.75; color: #95A3B7;">A supervised placement with a partner hospital or industry partner. [DURATION AND ELIGIBILITY TO CONFIRM]</p>
-            <span style="display: inline-flex; align-items: center; height: 28px; padding: 0 12px; margin-top: 16px; border: 1px solid rgba(124,166,226,0.28); border-radius: 999px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #A8C6F0;">[Duration]</span>
-          </div>
-
-          <div style="position: relative; padding-bottom: 40px;">
-            <span style="position: absolute; left: -46px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #FF4A2B; box-shadow: 0 0 0 5px rgba(255,74,43,0.14);"></span>
-            <div style="display: flex; align-items: baseline; gap: 16px;">
-              <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.16em; color: #FF8A73;">R4</span>
-              <h3 style="margin: 0; font-size: 21px; font-weight: 600; line-height: 1.3; letter-spacing: -0.014em; color: #EDF2F9;">Professional skills training</h3>
-            </div>
-            <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.75; color: #95A3B7;">Communication, research ethics, entrepreneurship and equity-in-research modules delivered across the program year.</p>
-            <span style="display: inline-flex; align-items: center; height: 28px; padding: 0 12px; margin-top: 16px; border: 1px solid rgba(124,166,226,0.28); border-radius: 999px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #A8C6F0;">[Modules]</span>
-          </div>
-
-          <div style="position: relative;">
-            <span style="position: absolute; left: -46px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #FF4A2B; box-shadow: 0 0 0 5px rgba(255,74,43,0.14);"></span>
-            <div style="display: flex; align-items: baseline; gap: 16px;">
-              <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.16em; color: #FF8A73;">R5</span>
-              <h3 style="margin: 0; font-size: 21px; font-weight: 600; line-height: 1.3; letter-spacing: -0.014em; color: #EDF2F9;">Thesis in neuromodulation or neurotechnology</h3>
-            </div>
-            <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.75; color: #95A3B7;">Thesis research must sit within the neurotechnology and neuromodulation area and be supervised by a participating faculty member.</p>
-            <span style="display: inline-flex; align-items: center; height: 28px; padding: 0 12px; margin-top: 16px; border: 1px solid rgba(124,166,226,0.28); border-radius: 999px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #A8C6F0;">Required</span>
-          </div>
-
-        </div>
-
-        <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 24px;">
-
-          <div style="box-sizing: border-box; padding: 32px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%);">
-            <div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #7CA6E2;">Who can apply</div>
-            <p style="margin: 16px 0 24px; font-size: 15px; line-height: 1.7; color: #95A3B7;">Master's and doctoral students in the participating graduate units:</p>
-            <div style="display: flex; flex-direction: column;">
-              <span style="padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.07); font-size: 14px; line-height: 1.5; color: #C3CEDD;">Biomedical Engineering — MASc, PhD</span>
-              <span style="padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.07); font-size: 14px; line-height: 1.5; color: #C3CEDD;">Electrical &amp; Computer Engineering — MASc, PhD</span>
-              <span style="padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.07); font-size: 14px; line-height: 1.5; color: #C3CEDD;">Chemical Engineering &amp; Applied Chemistry — MASc, PhD</span>
-              <span style="padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.07); font-size: 14px; line-height: 1.5; color: #C3CEDD;">Materials Science &amp; Engineering — MASc, PhD</span>
-              <span style="padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.07); font-size: 14px; line-height: 1.5; color: #C3CEDD;">Mechanical &amp; Industrial Engineering — MASc, PhD</span>
-              <span style="padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.07); font-size: 14px; line-height: 1.5; color: #C3CEDD;">Medical Science — MSc, PhD</span>
-            </div>
-          </div>
-
-          <div style="position: relative; box-sizing: border-box; padding: 32px; border: 1px solid rgba(255,74,43,0.32); border-radius: 20px; background: #12100F; overflow: hidden;">
-            <span style="position: absolute; top: 0; left: 24px; right: 24px; height: 1px; background: linear-gradient(90deg, rgba(255,74,43,0), rgba(255,74,43,0.6), rgba(255,74,43,0));"></span>
-            <div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #FF8A73;">Applications</div>
-            <p style="margin: 16px 0 24px; font-size: 15px; line-height: 1.7; color: #C9BDB8;">Next intake opens [APPLICATION DATE]. Applications are reviewed by the program committee on a [ROLLING / ANNUAL] basis.</p>
-            <a href="#contact" style="display: inline-flex; align-items: center; gap: 12px; height: 48px; padding: 0 20px 0 24px; border-radius: 999px; background: #FF4A2B; color: #12100F; font-size: 14px; font-weight: 600;">Request application details
-              <svg viewBox="0 0 24 24" style="width: 15px; height: 15px;" fill="none" stroke="#12100F" stroke-width="2" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
-            </a>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ═══════════ 04 NEWS ═══════════ -->
-  <div id="news" style="position: relative; overflow: hidden; width: 100%; box-sizing: border-box; padding: 128px 0;">
-    <div style="position: absolute; top: 64px; left: 50%; margin-left: 264px; pointer-events: none; font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 288px; line-height: 0.8; letter-spacing: -0.03em; color: rgba(124,166,226,0.055);">04</div>
-
-    <div style="position: relative; width: 1120px; margin: 0 auto;">
-
-      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 48px;">
-        <span style="width: 7px; height: 7px; border-radius: 50%; background: #FF4A2B;"></span>
-        <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #7CA6E2;">04 — News</span>
-        <span style="flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03));"></span>
-        <a href="#news" style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #A8C6F0;">View all →</a>
-      </div>
-
-      <div style="display: flex; gap: 32px; align-items: stretch;">
-
-        <div style="position: relative; width: 656px; box-sizing: border-box; border: 1px solid rgba(124,166,226,0.24); border-radius: 24px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%); overflow: hidden; display: flex; flex-direction: column;">
-
-          <div style="position: relative; height: 240px; background: #0A0F17; border-bottom: 1px solid rgba(255,255,255,0.08); overflow: hidden;">
-            <svg viewBox="0 0 656 240" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" aria-hidden="true">
-              <g stroke="rgba(124,166,226,0.22)" stroke-width="1" fill="none">
-                <path d="M-10 190 L88 128 L178 158 L278 78 L378 122 L478 62 L578 104 L666 60"></path>
-                <path d="M-10 212 L108 226 L208 200 L318 224 L428 192 L538 214 L666 182"></path>
-                <path d="M88 128 L108 226 M178 158 L208 200 M278 78 L318 224 M378 122 L428 192 M478 62 L538 214"></path>
-              </g>
-              <g fill="#7CA6E2">
-                <circle cx="88" cy="128" r="3.5"></circle><circle cx="178" cy="158" r="3"></circle>
-                <circle cx="378" cy="122" r="3.5"></circle><circle cx="578" cy="104" r="3"></circle>
-              </g>
-              <g fill="#FF4A2B">
-                <circle cx="278" cy="78" r="6"></circle><circle cx="478" cy="62" r="4.5"></circle>
-              </g>
-            </svg>
-            <svg style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; opacity: 0.16; pointer-events: none;" aria-hidden="true">
-              <filter id="grain-news"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
-              <rect width="100%" height="100%" fill="transparent" filter="url(#grain-news)"></rect>
-            </svg>
-            <span style="position: absolute; left: 32px; bottom: 24px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #5D6C80;">[FEATURE IMAGE]</span>
-            <span style="position: absolute; right: 32px; top: 24px; display: inline-flex; align-items: center; height: 28px; padding: 0 12px; border-radius: 999px; background: rgba(255,74,43,0.18); color: #FF8A73; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;">Featured</span>
-          </div>
-
-          <div style="padding: 40px; display: flex; flex-direction: column; flex-grow: 1;">
-            <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.06em; color: #7E8CA1;">[DATE] · U of T Engineering News</span>
-            <h3 style="margin: 20px 0 0; font-family: 'Instrument Serif', 'Times New Roman', serif; font-weight: 400; font-size: 40px; line-height: 1.12; letter-spacing: -0.02em; color: #F3F7FC;">Professor Luka Milosevic awarded NSERC CREATE grant to advance neuromodulation training</h3>
-            <p style="margin: 20px 0 0; font-size: 16px; line-height: 1.75; color: #95A3B7;">The $1.65M award from the Natural Sciences and Engineering Research Council supports a new graduate training initiative in neuromodulation and neurotechnology, led out of the Institute of Biomedical Engineering.</p>
-            <a href="#news" style="margin-top: auto; padding-top: 24px; font-size: 14px; font-weight: 500; color: #A8C6F0;">Read the announcement →</a>
-          </div>
-
-        </div>
-
-        <div style="flex-grow: 1; display: flex; flex-direction: column;">
-
-          <div style="display: flex; gap: 20px; padding-bottom: 24px;">
-            <div style="width: 80px; height: 80px; border-radius: 16px; background: #0F1620; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: 0.16em; color: #5D6C80;">[IMG]</span>
-            </div>
-            <div style="flex-grow: 1;">
-              <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.06em; color: #7E8CA1;">[DATE] · [CATEGORY]</span>
-              <h3 style="margin: 8px 0 0; font-size: 18px; font-weight: 600; line-height: 1.35; letter-spacing: -0.012em; color: #EDF2F9;">[NEWS HEADLINE — up to two lines of text]</h3>
-              <p style="margin: 8px 0 0; font-size: 14px; line-height: 1.6; color: #8B99AD;">[One-sentence summary.]</p>
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 20px; padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.09);">
-            <div style="width: 80px; height: 80px; border-radius: 16px; background: #0F1620; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: 0.16em; color: #5D6C80;">[IMG]</span>
-            </div>
-            <div style="flex-grow: 1;">
-              <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.06em; color: #7E8CA1;">[DATE] · [CATEGORY]</span>
-              <h3 style="margin: 8px 0 0; font-size: 18px; font-weight: 600; line-height: 1.35; letter-spacing: -0.012em; color: #EDF2F9;">[NEWS HEADLINE — up to two lines of text]</h3>
-              <p style="margin: 8px 0 0; font-size: 14px; line-height: 1.6; color: #8B99AD;">[One-sentence summary.]</p>
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 20px; padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.09);">
-            <div style="width: 80px; height: 80px; border-radius: 16px; background: #0F1620; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: 0.16em; color: #5D6C80;">[IMG]</span>
-            </div>
-            <div style="flex-grow: 1;">
-              <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.06em; color: #7E8CA1;">[DATE] · [CATEGORY]</span>
-              <h3 style="margin: 8px 0 0; font-size: 18px; font-weight: 600; line-height: 1.35; letter-spacing: -0.012em; color: #EDF2F9;">[NEWS HEADLINE — up to two lines of text]</h3>
-              <p style="margin: 8px 0 0; font-size: 14px; line-height: 1.6; color: #8B99AD;">[One-sentence summary.]</p>
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 20px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.09);">
-            <div style="width: 80px; height: 80px; border-radius: 16px; background: #0A0F17; border: 1px dashed rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: 0.16em; color: #5D6C80;">[IMG]</span>
-            </div>
-            <div style="flex-grow: 1;">
-              <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.06em; color: #7E8CA1;">[DATE] · [CATEGORY]</span>
-              <h3 style="margin: 8px 0 0; font-size: 18px; font-weight: 600; line-height: 1.35; letter-spacing: -0.012em; color: #6E7E93;">[ADD NEWS ITEM]</h3>
-              <p style="margin: 8px 0 0; font-size: 14px; line-height: 1.6; color: #6E7E93;">[Empty slot — the list holds four.]</p>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ═══════════ 05 EVENTS ═══════════ -->
-  <div id="events" style="position: relative; overflow: hidden; width: 100%; box-sizing: border-box; padding: 128px 0; background: #090D13; border-top: 1px solid rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.07);">
-    <svg style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; opacity: 0.12; pointer-events: none;" aria-hidden="true">
-      <filter id="grain-events"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
-      <rect width="100%" height="100%" fill="transparent" filter="url(#grain-events)"></rect>
-    </svg>
-    <div style="position: absolute; top: 64px; left: 50%; margin-left: 264px; pointer-events: none; font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 288px; line-height: 0.8; letter-spacing: -0.03em; color: rgba(124,166,226,0.05);">05</div>
-
-    <div style="position: relative; width: 1120px; margin: 0 auto;">
-
-      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 48px;">
-        <span style="width: 7px; height: 7px; border-radius: 50%; background: #FF4A2B;"></span>
-        <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #7CA6E2;">05 — Events</span>
-        <span style="flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03));"></span>
-      </div>
-
-      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 48px;">
-        <h2 style="margin: 0; font-family: 'Instrument Serif', 'Times New Roman', serif; font-weight: 400; font-size: 56px; line-height: 1.05; letter-spacing: -0.02em; color: #F3F7FC;">Seminars, symposia and workshops</h2>
-        <div style="display: flex; gap: 8px; padding: 6px; border: 1px solid rgba(255,255,255,0.10); border-radius: 999px;">
-          <button type="button" id="tabUpcoming" onclick="showEvents('upcoming')" style="height: 44px; padding: 0 24px; border: none; border-radius: 999px; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; font-weight: 500; letter-spacing: -0.004em; cursor: pointer; background: #7CA6E2; color: #0A0D12;">Upcoming</button>
-          <button type="button" id="tabPast" onclick="showEvents('past')" style="height: 44px; padding: 0 24px; border: none; border-radius: 999px; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; font-weight: 500; letter-spacing: -0.004em; cursor: pointer; background: transparent; color: #A9B6C8;">Past</button>
-        </div>
-      </div>
-
-      <div id="eventsUpcoming">
-        <div style="display: flex; flex-direction: column;">
-
-          <div style="display: flex; gap: 32px; align-items: center; padding: 32px 8px; border-top: 1px solid rgba(255,255,255,0.09);">
-            <div style="width: 96px; box-sizing: border-box; padding: 16px 0; border: 1px solid rgba(124,166,226,0.28); border-radius: 16px; text-align: center; flex-shrink: 0;">
-              <div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #7CA6E2;">[MON]</div>
-              <div style="font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 32px; line-height: 1.2; color: #F3F7FC;">[00]</div>
-            </div>
-            <div style="flex-grow: 1;">
-              <h3 style="margin: 0; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.016em; color: #EDF2F9;">[EVENT TITLE — e.g. annual trainee symposium]</h3>
-              <p style="margin: 8px 0 0; font-size: 15px; line-height: 1.6; color: #8B99AD;">[LOCATION] · [START TIME]–[END TIME] · [OPEN TO / REGISTRATION REQUIRED]</p>
-            </div>
-            <a href="#events" style="display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 20px; border: 1px solid rgba(255,255,255,0.16); border-radius: 999px; font-size: 14px; font-weight: 500; color: #E2EAF6; flex-shrink: 0;">Register
-              <svg viewBox="0 0 24 24" style="width: 14px; height: 14px;" fill="none" stroke="#A8C6F0" stroke-width="1.8" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
-            </a>
-          </div>
-
-          <div style="display: flex; gap: 32px; align-items: center; padding: 32px 8px; border-top: 1px solid rgba(255,255,255,0.09);">
-            <div style="width: 96px; box-sizing: border-box; padding: 16px 0; border: 1px solid rgba(124,166,226,0.28); border-radius: 16px; text-align: center; flex-shrink: 0;">
-              <div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #7CA6E2;">[MON]</div>
-              <div style="font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 32px; line-height: 1.2; color: #F3F7FC;">[00]</div>
-            </div>
-            <div style="flex-grow: 1;">
-              <h3 style="margin: 0; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.016em; color: #EDF2F9;">[EVENT TITLE — e.g. neurotechnology workshop]</h3>
-              <p style="margin: 8px 0 0; font-size: 15px; line-height: 1.6; color: #8B99AD;">[LOCATION] · [START TIME]–[END TIME] · [OPEN TO / REGISTRATION REQUIRED]</p>
-            </div>
-            <a href="#events" style="display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 20px; border: 1px solid rgba(255,255,255,0.16); border-radius: 999px; font-size: 14px; font-weight: 500; color: #E2EAF6; flex-shrink: 0;">Register
-              <svg viewBox="0 0 24 24" style="width: 14px; height: 14px;" fill="none" stroke="#A8C6F0" stroke-width="1.8" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
-            </a>
-          </div>
-
-          <div style="display: flex; gap: 32px; align-items: center; padding: 32px 8px; border-top: 1px solid rgba(255,255,255,0.09); border-bottom: 1px solid rgba(255,255,255,0.09);">
-            <div style="width: 96px; box-sizing: border-box; padding: 16px 0; border: 1px solid rgba(124,166,226,0.28); border-radius: 16px; text-align: center; flex-shrink: 0;">
-              <div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #7CA6E2;">[MON]</div>
-              <div style="font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 32px; line-height: 1.2; color: #F3F7FC;">[00]</div>
-            </div>
-            <div style="flex-grow: 1;">
-              <h3 style="margin: 0; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.016em; color: #EDF2F9;">[EVENT TITLE — e.g. guest lecture series]</h3>
-              <p style="margin: 8px 0 0; font-size: 15px; line-height: 1.6; color: #8B99AD;">[LOCATION] · [START TIME]–[END TIME] · [OPEN TO / REGISTRATION REQUIRED]</p>
-            </div>
-            <a href="#events" style="display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 20px; border: 1px solid rgba(255,255,255,0.16); border-radius: 999px; font-size: 14px; font-weight: 500; color: #E2EAF6; flex-shrink: 0;">Register
-              <svg viewBox="0 0 24 24" style="width: 14px; height: 14px;" fill="none" stroke="#A8C6F0" stroke-width="1.8" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
-            </a>
-          </div>
-
-        </div>
-      </div>
-
-      <div id="eventsPast" style="display: none;">
-        <div style="display: flex; flex-direction: column;">
-
-          <div style="display: flex; gap: 32px; align-items: center; padding: 32px 8px; border-top: 1px solid rgba(255,255,255,0.09);">
-            <div style="width: 96px; box-sizing: border-box; padding: 16px 0; border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; text-align: center; flex-shrink: 0;">
-              <div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #7E8CA1;">[MON]</div>
-              <div style="font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 32px; line-height: 1.2; color: #AEBCCE;">[00]</div>
-            </div>
-            <div style="flex-grow: 1;">
-              <h3 style="margin: 0; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.016em; color: #C3CEDD;">[PAST EVENT TITLE]</h3>
-              <p style="margin: 8px 0 0; font-size: 15px; line-height: 1.6; color: #8B99AD;">[LOCATION] · [RECORDING OR RECAP LINK]</p>
-            </div>
-            <a href="#events" style="display: inline-flex; align-items: center; height: 48px; padding: 0 20px; border: 1px solid rgba(255,255,255,0.16); border-radius: 999px; font-size: 14px; font-weight: 500; color: #E2EAF6; flex-shrink: 0;">Recap</a>
-          </div>
-
-          <div style="display: flex; gap: 32px; align-items: center; padding: 32px 8px; border-top: 1px solid rgba(255,255,255,0.09); border-bottom: 1px solid rgba(255,255,255,0.09);">
-            <div style="width: 96px; box-sizing: border-box; padding: 16px 0; border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; text-align: center; flex-shrink: 0;">
-              <div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #7E8CA1;">[MON]</div>
-              <div style="font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 32px; line-height: 1.2; color: #AEBCCE;">[00]</div>
-            </div>
-            <div style="flex-grow: 1;">
-              <h3 style="margin: 0; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.016em; color: #C3CEDD;">[PAST EVENT TITLE]</h3>
-              <p style="margin: 8px 0 0; font-size: 15px; line-height: 1.6; color: #8B99AD;">[LOCATION] · [RECORDING OR RECAP LINK]</p>
-            </div>
-            <a href="#events" style="display: inline-flex; align-items: center; height: 48px; padding: 0 20px; border: 1px solid rgba(255,255,255,0.16); border-radius: 999px; font-size: 14px; font-weight: 500; color: #E2EAF6; flex-shrink: 0;">Recap</a>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ═══════════ 06 TEAM ═══════════ -->
-  <div id="team" style="position: relative; overflow: hidden; width: 100%; box-sizing: border-box; padding: 128px 0;">
-    <div style="position: absolute; top: 64px; left: 50%; margin-left: 264px; pointer-events: none; font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 288px; line-height: 0.8; letter-spacing: -0.03em; color: rgba(124,166,226,0.055);">06</div>
-
-    <div style="position: relative; width: 1120px; margin: 0 auto;">
-
-      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 48px;">
-        <span style="width: 7px; height: 7px; border-radius: 50%; background: #FF4A2B;"></span>
-        <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #7CA6E2;">06 — Team</span>
-        <span style="flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03));"></span>
-      </div>
-
-      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 48px;">
-        <h2 style="margin: 0; font-family: 'Instrument Serif', 'Times New Roman', serif; font-weight: 400; font-size: 56px; line-height: 1.05; letter-spacing: -0.02em; color: #F3F7FC;">Core team</h2>
-        <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #6E7E93;">Faculty, clinical and program leads</span>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px;">
-
-        <div style="box-sizing: border-box; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%); overflow: hidden;">
-          <div style="position: relative; height: 232px; background: #0F1620; border-bottom: 1px solid rgba(255,255,255,0.07);">
-            <svg viewBox="0 0 256 232" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" aria-hidden="true">
-              <g stroke="rgba(124,166,226,0.16)" stroke-width="1" fill="none">
-                <path d="M28 196 L84 148 L140 174 L196 126 L248 154"></path>
-                <path d="M84 148 L94 80 L158 58 L196 126"></path>
-              </g>
-              <g fill="rgba(124,166,226,0.5)"><circle cx="84" cy="148" r="3"></circle><circle cx="196" cy="126" r="3"></circle></g>
-              <g fill="#FF4A2B"><circle cx="158" cy="58" r="4"></circle></g>
-            </svg>
-            <span style="position: absolute; left: 24px; bottom: 20px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #5D6C80;">[PHOTO]</span>
-          </div>
-          <div style="padding: 24px;">
-            <h3 style="margin: 0; font-size: 18px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">Luka Milosevic</h3>
-            <div style="margin-top: 6px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #7CA6E2;">Program Director</div>
-            <p style="margin: 16px 0 0; font-size: 14px; line-height: 1.7; color: #8B99AD;">[SHORT BIO — two to three lines on research focus and role in the program.]</p>
-            <div style="margin-top: 24px; display: flex; gap: 8px;">
-              <a href="#team" aria-label="Email Luka Milosevic" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M3 8l9 6 9-6"></path></svg>
-              </a>
-              <a href="#team" aria-label="LinkedIn profile" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><path d="M6 9v10M6 5v.5M11 19v-6a3 3 0 0 1 6 0v6"></path></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div style="box-sizing: border-box; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%); overflow: hidden;">
-          <div style="position: relative; height: 232px; background: #0F1620; border-bottom: 1px solid rgba(255,255,255,0.07);">
-            <svg viewBox="0 0 256 232" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" aria-hidden="true">
-              <g stroke="rgba(124,166,226,0.16)" stroke-width="1" fill="none">
-                <path d="M18 164 L72 192 L138 146 L204 178 L246 136"></path>
-                <path d="M72 192 L102 94 L174 72 L204 178"></path>
-              </g>
-              <g fill="rgba(124,166,226,0.5)"><circle cx="72" cy="192" r="3"></circle><circle cx="204" cy="178" r="3"></circle></g>
-              <g fill="#FF4A2B"><circle cx="102" cy="94" r="4"></circle></g>
-            </svg>
-            <span style="position: absolute; left: 24px; bottom: 20px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #5D6C80;">[PHOTO]</span>
-          </div>
-          <div style="padding: 24px;">
-            <h3 style="margin: 0; font-size: 18px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">Suhail Asrar</h3>
-            <div style="margin-top: 6px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #7CA6E2;">Program Manager, CNMI</div>
-            <p style="margin: 16px 0 0; font-size: 14px; line-height: 1.7; color: #8B99AD;">[SHORT BIO — two to three lines on research focus and role in the program.]</p>
-            <div style="margin-top: 24px; display: flex; gap: 8px;">
-              <a href="#team" aria-label="Email Suhail Asrar" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M3 8l9 6 9-6"></path></svg>
-              </a>
-              <a href="#team" aria-label="LinkedIn profile" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><path d="M6 9v10M6 5v.5M11 19v-6a3 3 0 0 1 6 0v6"></path></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div style="box-sizing: border-box; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%); overflow: hidden;">
-          <div style="position: relative; height: 232px; background: #0F1620; border-bottom: 1px solid rgba(255,255,255,0.07);">
-            <svg viewBox="0 0 256 232" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" aria-hidden="true">
-              <g stroke="rgba(124,166,226,0.16)" stroke-width="1" fill="none">
-                <path d="M16 136 L80 168 L144 124 L208 160 L248 118"></path>
-                <path d="M80 168 L116 86 L186 66 L208 160"></path>
-              </g>
-              <g fill="rgba(124,166,226,0.5)"><circle cx="80" cy="168" r="3"></circle><circle cx="208" cy="160" r="3"></circle></g>
-              <g fill="#FF4A2B"><circle cx="186" cy="66" r="4"></circle></g>
-            </svg>
-            <span style="position: absolute; left: 24px; bottom: 20px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #5D6C80;">[PHOTO]</span>
-          </div>
-          <div style="padding: 24px;">
-            <h3 style="margin: 0; font-size: 18px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">[TEAM MEMBER]</h3>
-            <div style="margin-top: 6px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #7CA6E2;">[ROLE]</div>
-            <p style="margin: 16px 0 0; font-size: 14px; line-height: 1.7; color: #8B99AD;">[SHORT BIO — two to three lines on research focus and role in the program.]</p>
-            <div style="margin-top: 24px; display: flex; gap: 8px;">
-              <a href="#team" aria-label="Email team member" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M3 8l9 6 9-6"></path></svg>
-              </a>
-              <a href="#team" aria-label="LinkedIn profile" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><path d="M6 9v10M6 5v.5M11 19v-6a3 3 0 0 1 6 0v6"></path></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div style="box-sizing: border-box; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%); overflow: hidden;">
-          <div style="position: relative; height: 232px; background: #0F1620; border-bottom: 1px solid rgba(255,255,255,0.07);">
-            <svg viewBox="0 0 256 232" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" aria-hidden="true">
-              <g stroke="rgba(124,166,226,0.16)" stroke-width="1" fill="none">
-                <path d="M22 182 L88 138 L148 164 L212 120 L248 148"></path>
-                <path d="M88 138 L110 70 L182 90 L212 120"></path>
-              </g>
-              <g fill="rgba(124,166,226,0.5)"><circle cx="88" cy="138" r="3"></circle><circle cx="212" cy="120" r="3"></circle></g>
-              <g fill="#FF4A2B"><circle cx="110" cy="70" r="4"></circle></g>
-            </svg>
-            <span style="position: absolute; left: 24px; bottom: 20px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #5D6C80;">[PHOTO]</span>
-          </div>
-          <div style="padding: 24px;">
-            <h3 style="margin: 0; font-size: 18px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">[TEAM MEMBER]</h3>
-            <div style="margin-top: 6px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #7CA6E2;">[ROLE]</div>
-            <p style="margin: 16px 0 0; font-size: 14px; line-height: 1.7; color: #8B99AD;">[SHORT BIO — two to three lines on research focus and role in the program.]</p>
-            <div style="margin-top: 24px; display: flex; gap: 8px;">
-              <a href="#team" aria-label="Email team member" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M3 8l9 6 9-6"></path></svg>
-              </a>
-              <a href="#team" aria-label="LinkedIn profile" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><path d="M6 9v10M6 5v.5M11 19v-6a3 3 0 0 1 6 0v6"></path></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div style="box-sizing: border-box; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%); overflow: hidden;">
-          <div style="position: relative; height: 232px; background: #0F1620; border-bottom: 1px solid rgba(255,255,255,0.07);">
-            <svg viewBox="0 0 256 232" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" aria-hidden="true">
-              <g stroke="rgba(124,166,226,0.16)" stroke-width="1" fill="none">
-                <path d="M16 152 L76 182 L140 138 L206 172 L246 130"></path>
-                <path d="M76 182 L106 98 L170 78 L206 172"></path>
-              </g>
-              <g fill="rgba(124,166,226,0.5)"><circle cx="76" cy="182" r="3"></circle><circle cx="206" cy="172" r="3"></circle></g>
-              <g fill="#FF4A2B"><circle cx="170" cy="78" r="4"></circle></g>
-            </svg>
-            <span style="position: absolute; left: 24px; bottom: 20px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #5D6C80;">[PHOTO]</span>
-          </div>
-          <div style="padding: 24px;">
-            <h3 style="margin: 0; font-size: 18px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">[TEAM MEMBER]</h3>
-            <div style="margin-top: 6px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #7CA6E2;">[ROLE]</div>
-            <p style="margin: 16px 0 0; font-size: 14px; line-height: 1.7; color: #8B99AD;">[SHORT BIO — two to three lines on research focus and role in the program.]</p>
-            <div style="margin-top: 24px; display: flex; gap: 8px;">
-              <a href="#team" aria-label="Email team member" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M3 8l9 6 9-6"></path></svg>
-              </a>
-              <a href="#team" aria-label="LinkedIn profile" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><path d="M6 9v10M6 5v.5M11 19v-6a3 3 0 0 1 6 0v6"></path></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div style="box-sizing: border-box; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%); overflow: hidden;">
-          <div style="position: relative; height: 232px; background: #0F1620; border-bottom: 1px solid rgba(255,255,255,0.07);">
-            <svg viewBox="0 0 256 232" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" aria-hidden="true">
-              <g stroke="rgba(124,166,226,0.16)" stroke-width="1" fill="none">
-                <path d="M20 128 L86 162 L150 116 L214 154 L248 112"></path>
-                <path d="M86 162 L118 80 L188 60 L214 154"></path>
-              </g>
-              <g fill="rgba(124,166,226,0.5)"><circle cx="86" cy="162" r="3"></circle><circle cx="214" cy="154" r="3"></circle></g>
-              <g fill="#FF4A2B"><circle cx="118" cy="80" r="4"></circle></g>
-            </svg>
-            <span style="position: absolute; left: 24px; bottom: 20px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #5D6C80;">[PHOTO]</span>
-          </div>
-          <div style="padding: 24px;">
-            <h3 style="margin: 0; font-size: 18px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">[TEAM MEMBER]</h3>
-            <div style="margin-top: 6px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #7CA6E2;">[ROLE]</div>
-            <p style="margin: 16px 0 0; font-size: 14px; line-height: 1.7; color: #8B99AD;">[SHORT BIO — two to three lines on research focus and role in the program.]</p>
-            <div style="margin-top: 24px; display: flex; gap: 8px;">
-              <a href="#team" aria-label="Email team member" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M3 8l9 6 9-6"></path></svg>
-              </a>
-              <a href="#team" aria-label="LinkedIn profile" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><path d="M6 9v10M6 5v.5M11 19v-6a3 3 0 0 1 6 0v6"></path></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div style="box-sizing: border-box; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%); overflow: hidden;">
-          <div style="position: relative; height: 232px; background: #0F1620; border-bottom: 1px solid rgba(255,255,255,0.07);">
-            <svg viewBox="0 0 256 232" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" aria-hidden="true">
-              <g stroke="rgba(124,166,226,0.16)" stroke-width="1" fill="none">
-                <path d="M24 172 L90 128 L152 156 L216 112 L250 140"></path>
-                <path d="M90 128 L122 64 L184 84 L216 112"></path>
-              </g>
-              <g fill="rgba(124,166,226,0.5)"><circle cx="90" cy="128" r="3"></circle><circle cx="216" cy="112" r="3"></circle></g>
-              <g fill="#FF4A2B"><circle cx="184" cy="84" r="4"></circle></g>
-            </svg>
-            <span style="position: absolute; left: 24px; bottom: 20px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #5D6C80;">[PHOTO]</span>
-          </div>
-          <div style="padding: 24px;">
-            <h3 style="margin: 0; font-size: 18px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; color: #EDF2F9;">[TEAM MEMBER]</h3>
-            <div style="margin-top: 6px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #7CA6E2;">[ROLE]</div>
-            <p style="margin: 16px 0 0; font-size: 14px; line-height: 1.7; color: #8B99AD;">[SHORT BIO — two to three lines on research focus and role in the program.]</p>
-            <div style="margin-top: 24px; display: flex; gap: 8px;">
-              <a href="#team" aria-label="Email team member" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M3 8l9 6 9-6"></path></svg>
-              </a>
-              <a href="#team" aria-label="LinkedIn profile" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><path d="M6 9v10M6 5v.5M11 19v-6a3 3 0 0 1 6 0v6"></path></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div style="box-sizing: border-box; min-height: 404px; border: 1px dashed rgba(255,255,255,0.14); border-radius: 20px; background: #090E15; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;">
-          <span style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.14); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;" fill="none" stroke="#6E7E93" stroke-width="1.6" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
-          </span>
-          <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #5D6C80;">Slot available</span>
-          <span style="font-size: 14px; color: #6E7E93;">[ADD TEAM MEMBER]</span>
-        </div>
-
-      </div>
-
-      <!-- Partners -->
-      <div id="partners" style="margin-top: 96px;">
-        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 40px;">
-          <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #7CA6E2;">06.2 — Partners</span>
-          <span style="flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03));"></span>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 24px;">
-
-          <div style="box-sizing: border-box; padding: 24px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%);">
-            <div style="height: 56px; border: 1px dashed rgba(255,255,255,0.14); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: 0.16em; color: #5D6C80;">[LOGO]</div>
-            <div style="margin-top: 20px; font-size: 16px; font-weight: 600; line-height: 1.35; letter-spacing: -0.012em; color: #EDF2F9;">University of Toronto</div>
-            <p style="margin: 8px 0 0; font-size: 13px; line-height: 1.65; color: #8B99AD;">[PARTNER BLURB — one or two lines.]</p>
-          </div>
-
-          <div style="box-sizing: border-box; padding: 24px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%);">
-            <div style="height: 56px; border: 1px dashed rgba(255,255,255,0.14); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: 0.16em; color: #5D6C80;">[LOGO]</div>
-            <div style="margin-top: 20px; font-size: 16px; font-weight: 600; line-height: 1.35; letter-spacing: -0.012em; color: #EDF2F9;">UHN</div>
-            <p style="margin: 8px 0 0; font-size: 13px; line-height: 1.65; color: #8B99AD;">[PARTNER BLURB — one or two lines.]</p>
-          </div>
-
-          <div style="box-sizing: border-box; padding: 24px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%);">
-            <div style="height: 56px; border: 1px dashed rgba(255,255,255,0.14); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: 0.16em; color: #5D6C80;">[LOGO]</div>
-            <div style="margin-top: 20px; font-size: 16px; font-weight: 600; line-height: 1.35; letter-spacing: -0.012em; color: #EDF2F9;">SickKids</div>
-            <p style="margin: 8px 0 0; font-size: 13px; line-height: 1.65; color: #8B99AD;">[PARTNER BLURB — one or two lines.]</p>
-          </div>
-
-          <div style="box-sizing: border-box; padding: 24px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%);">
-            <div style="height: 56px; border: 1px dashed rgba(255,255,255,0.14); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: 0.16em; color: #5D6C80;">[LOGO]</div>
-            <div style="margin-top: 20px; font-size: 16px; font-weight: 600; line-height: 1.35; letter-spacing: -0.012em; color: #EDF2F9;">CAMH</div>
-            <p style="margin: 8px 0 0; font-size: 13px; line-height: 1.65; color: #8B99AD;">[PARTNER BLURB — one or two lines.]</p>
-          </div>
-
-          <div style="box-sizing: border-box; padding: 24px; border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%);">
-            <div style="height: 56px; border: 1px dashed rgba(255,255,255,0.14); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: 0.16em; color: #5D6C80;">[LOGO]</div>
-            <div style="margin-top: 20px; font-size: 16px; font-weight: 600; line-height: 1.35; letter-spacing: -0.012em; color: #EDF2F9;">Sunnybrook</div>
-            <p style="margin: 8px 0 0; font-size: 13px; line-height: 1.65; color: #8B99AD;">[PARTNER BLURB — one or two lines.]</p>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ═══════════ 07 CONTACT ═══════════ -->
-  <div id="contact" style="position: relative; overflow: hidden; width: 100%; box-sizing: border-box; padding: 128px 0; background: #090D13; border-top: 1px solid rgba(255,255,255,0.07);">
-    <svg style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; opacity: 0.12; pointer-events: none;" aria-hidden="true">
-      <filter id="grain-contact"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
-      <rect width="100%" height="100%" fill="transparent" filter="url(#grain-contact)"></rect>
-    </svg>
-    <div style="position: absolute; top: 64px; left: 50%; margin-left: 264px; pointer-events: none; font-family: 'Instrument Serif', 'Times New Roman', serif; font-size: 288px; line-height: 0.8; letter-spacing: -0.03em; color: rgba(124,166,226,0.05);">07</div>
-
-    <div style="position: relative; width: 1120px; margin: 0 auto;">
-
-      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 48px;">
-        <span style="width: 7px; height: 7px; border-radius: 50%; background: #FF4A2B;"></span>
-        <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #7CA6E2;">07 — Contact us</span>
-        <span style="flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03));"></span>
-      </div>
-
-      <div style="display: flex; gap: 64px; align-items: flex-start;">
-
-        <div style="width: 480px;">
-          <h2 style="margin: 0; font-family: 'Instrument Serif', 'Times New Roman', serif; font-weight: 400; font-size: 56px; line-height: 1.05; letter-spacing: -0.02em; color: #F3F7FC;">Talk to the program office</h2>
-          <p style="margin: 24px 0 0; font-size: 17px; line-height: 1.75; color: #A9B6C8;">Questions about eligibility, supervision or partnership are welcome from prospective trainees, faculty and industry.</p>
-
-          <div style="margin-top: 40px; display: flex; flex-direction: column;">
-            <div style="padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.09);">
-              <div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #6E7E93;">Email</div>
-              <a href="mailto:info.cnmi@utoronto.ca" style="display: inline-block; margin-top: 12px; font-size: 18px; color: #A8C6F0;">info.cnmi@utoronto.ca</a>
-            </div>
-            <div style="padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.09);">
-              <div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #6E7E93;">Office</div>
-              <div style="margin-top: 12px; font-size: 16px; line-height: 1.7; color: #C3CEDD;">CRANIA NeuroModulation Institute<br>Toronto Western Hospital, McLaughlin Wing, 14th Floor<br>399 Bathurst Street, Toronto, Ontario</div>
-            </div>
-            <div style="padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.09); border-bottom: 1px solid rgba(255,255,255,0.09);">
-              <div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #6E7E93;">Phone</div>
-              <div style="margin-top: 12px; font-size: 16px; color: #C3CEDD;">[PHONE NUMBER]</div>
-            </div>
-          </div>
-        </div>
-
-        <div style="position: relative; flex-grow: 1; box-sizing: border-box; padding: 40px; border: 1px solid rgba(255,255,255,0.10); border-radius: 24px; background: linear-gradient(180deg, #0E141D 0%, #0A0F16 100%); overflow: hidden;">
-          <span style="position: absolute; top: 0; left: 32px; right: 32px; height: 1px; background: linear-gradient(90deg, rgba(124,166,226,0), rgba(124,166,226,0.5), rgba(124,166,226,0));"></span>
-
-          <div style="display: flex; gap: 24px;">
-            <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 12px;">
-              <label for="c-name" style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8593A8;">Full name</label>
-              <input id="c-name" type="text" placeholder="Your name" style="box-sizing: border-box; width: 100%; height: 52px; padding: 0 16px; border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; background: #080C12; color: #EDF2F9; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 15px;">
-            </div>
-            <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 12px;">
-              <label for="c-email" style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8593A8;">Email</label>
-              <input id="c-email" type="email" placeholder="you@utoronto.ca" style="box-sizing: border-box; width: 100%; height: 52px; padding: 0 16px; border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; background: #080C12; color: #EDF2F9; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 15px;">
-            </div>
-          </div>
-
-          <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 12px;">
-            <label for="c-aff" style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8593A8;">Affiliation</label>
-            <input id="c-aff" type="text" placeholder="Department, institution or company" style="box-sizing: border-box; width: 100%; height: 52px; padding: 0 16px; border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; background: #080C12; color: #EDF2F9; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 15px;">
-          </div>
-
-          <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 12px;">
-            <label for="c-msg" style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8593A8;">Message</label>
-            <textarea id="c-msg" rows="5" placeholder="How can we help?" style="box-sizing: border-box; width: 100%; padding: 16px; border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; background: #080C12; color: #EDF2F9; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 15px; line-height: 1.7; resize: vertical;"></textarea>
-          </div>
-
-          <div style="margin-top: 24px; display: flex; align-items: center; gap: 12px;">
-            <input id="c-consent" type="checkbox" style="width: 18px; height: 18px; accent-color: #FF4A2B;">
-            <label for="c-consent" style="font-size: 14px; color: #8B99AD;">Add me to the GAINN mailing list.</label>
-          </div>
-
-          <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.09); display: flex; align-items: center; justify-content: space-between; gap: 24px;">
-            <span style="font-size: 13px; color: #6E7E93;">We reply within [X] business days.</span>
-            <button type="button" style="height: 52px; padding: 0 32px; border: none; border-radius: 999px; background: #FF4A2B; color: #0A0D12; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 15px; font-weight: 600; cursor: pointer;">Send message</button>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ═══════════ ACKNOWLEDGEMENT ═══════════ -->
-  <div style="width: 100%; box-sizing: border-box; padding: 96px 0; border-top: 1px solid rgba(255,255,255,0.07); background: #070A0F;">
-    <div style="width: 1120px; margin: 0 auto; box-sizing: border-box; padding: 40px 48px; border: 1px solid rgba(124,166,226,0.20); border-radius: 20px; display: flex; gap: 40px; align-items: center;">
-      <div style="width: 152px; height: 64px; border: 1px dashed rgba(255,255,255,0.16); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; color: #5D6C80; flex-shrink: 0;">[NSERC LOGO]</div>
-      <div style="flex-grow: 1;">
-        <div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #7CA6E2;">Acknowledgement</div>
-        <p style="margin: 16px 0 0; font-size: 15px; line-height: 1.75; color: #A9B6C8;">GAINN is supported by the Natural Sciences and Engineering Research Council of Canada (NSERC) through its Collaborative Research and Training Experience (CREATE) program. [REPLACE WITH THE OFFICIAL NSERC ACKNOWLEDGEMENT WORDING.]</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════ FOOTER ═══════════ -->
-  <div style="position: relative; width: 100%; box-sizing: border-box; background: #05080C; border-top: 1px solid rgba(255,255,255,0.08); overflow: hidden;">
-    <svg style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; opacity: 0.10; pointer-events: none;" aria-hidden="true">
-      <filter id="grain-footer"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
-      <rect width="100%" height="100%" fill="transparent" filter="url(#grain-footer)"></rect>
-    </svg>
-
-    <div style="position: relative; width: 1120px; margin: 0 auto; padding: 80px 0 48px; display: flex; gap: 48px; align-items: flex-start;">
-
-      <div style="width: 328px;">
-        <img src="assets/gainn-logo-dark.png" alt="GAINN — Graduate Advancement in Neuromodulation and Neurotech" style="width: 296px; height: auto; display: block;">
-        <div style="margin-top: 24px; display: flex; align-items: center; gap: 16px;">
-          <div style="width: 88px; height: 32px; border: 1px dashed rgba(255,255,255,0.16); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 9px; letter-spacing: 0.14em; color: #5D6C80;">[CRANIA]</div>
-          <span style="font-size: 14px; color: #8B99AD;">CRANIA NeuroModulation Institute</span>
-        </div>
-        <div style="margin-top: 24px; display: flex; gap: 12px;">
-          <a href="#top" aria-label="LinkedIn" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-            <svg viewBox="0 0 24 24" style="width: 18px; height: 18px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><path d="M6 9v10M6 5v.5M11 19v-6a3 3 0 0 1 6 0v6"></path></svg>
-          </a>
-          <a href="#top" aria-label="X" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-            <svg viewBox="0 0 24 24" style="width: 18px; height: 18px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg>
-          </a>
-          <a href="#top" aria-label="YouTube" style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-            <svg viewBox="0 0 24 24" style="width: 18px; height: 18px;" fill="none" stroke="#A8C6F0" stroke-width="1.5" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="4"></rect><path d="M11 10l4 2-4 2z"></path></svg>
-          </a>
-        </div>
-        <span style="display: inline-block; margin-top: 24px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.06em; color: #5D6C80;">[SOCIAL HANDLES]</span>
-      </div>
-
-      <div style="width: 184px;">
-        <div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #6E7E93; margin-bottom: 24px;">Explore</div>
-        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px;">
-          <a href="#about">About us</a>
-          <a href="#field">The field</a>
-          <a href="#program">Program requirements</a>
-          <a href="#news">News</a>
-          <a href="#events">Events</a>
-          <a href="#team">Team</a>
-        </div>
-      </div>
-
-      <div style="width: 184px;">
-        <div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #6E7E93; margin-bottom: 24px;">Our partners</div>
-        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px;">
-          <a href="#partners">University of Toronto</a>
-          <a href="#partners">UHN</a>
-          <a href="#partners">SickKids</a>
-          <a href="#partners">CAMH</a>
-          <a href="#partners">Sunnybrook</a>
-        </div>
-      </div>
-
-      <div style="flex-grow: 1;">
-        <div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase; color: #6E7E93; margin-bottom: 24px;">Subscribe to our mailing list</div>
-        <p style="margin: 0 0 24px; font-size: 14px; line-height: 1.7; color: #8B99AD;">Program news, seminar invitations and application deadlines. No more than [FREQUENCY].</p>
-        <div style="display: flex; flex-direction: column; gap: 16px;">
-          <div style="display: flex; flex-direction: column; gap: 8px;">
-            <label for="f-name" style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8593A8;">Name</label>
-            <input id="f-name" type="text" placeholder="Your name" style="box-sizing: border-box; width: 100%; height: 48px; padding: 0 16px; border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; background: #080C12; color: #EDF2F9; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 15px;">
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 8px;">
-            <label for="f-email" style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8593A8;">Email</label>
-            <input id="f-email" type="email" placeholder="you@example.com" style="box-sizing: border-box; width: 100%; height: 48px; padding: 0 16px; border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; background: #080C12; color: #EDF2F9; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 15px;">
-          </div>
-          <button type="button" style="height: 48px; border: 1px solid rgba(124,166,226,0.45); border-radius: 999px; background: transparent; color: #DCE8F8; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; font-weight: 500; cursor: pointer;">Subscribe</button>
-        </div>
-      </div>
-
-    </div>
-
-    <div style="position: relative; width: 1120px; margin: 0 auto; height: 160px; overflow: hidden; display: flex; align-items: flex-start; justify-content: center;">
-      <span style="font-size: 248px; font-weight: 600; letter-spacing: 0.06em; line-height: 0.8; color: #0C1119;">GAINN</span>
-    </div>
-
-    <div style="position: relative; width: 1120px; margin: 0 auto; padding: 24px 0 48px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; gap: 24px;">
-      <span style="font-size: 13px; color: #5D6C80;">© 2026 GAINN · CRANIA NeuroModulation Institute, University of Toronto</span>
-      <div style="display: flex; gap: 24px; font-size: 13px;">
-        <a href="#top">Privacy</a>
-        <a href="#top">Accessibility</a>
-        <a href="#top">Back to top ↑</a>
-      </div>
-    </div>
-
-  </div>
-
+</div></section>
+
+<!-- ════ ACKNOWLEDGEMENT ════ -->
+<div class="shell rv" style="margin:88px auto;padding:34px 40px;border:1px solid var(--line-blue);border-radius:20px;display:flex;gap:34px;align-items:center;flex-wrap:wrap">
+  <div style="width:140px;height:58px;border:1px dashed var(--line-2);border-radius:12px;display:grid;place-items:center" class="micro">[NSERC logo]</div>
+  <p class="body" style="flex:1;min-width:280px">Supported by the Natural Sciences and Engineering Research Council of Canada through its CREATE program. [OFFICIAL NSERC WORDING]</p>
 </div>
 
+<!-- ════ FOOTER ════ -->
+<footer>
+  <div class="shell" style="padding:72px 0 44px">
+    <div class="fgrid">
+      <div>
+        <img src="data:image/png;base64,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" alt="GAINN" style="width:284px">
+        <div style="margin-top:22px;display:flex;align-items:center;gap:13px">
+          <span style="width:84px;height:30px;border:1px dashed var(--line-2);border-radius:8px;display:grid;place-items:center" class="micro">[CRANIA]</span>
+          <span style="font-size:13.5px;color:var(--tx-mute)">NeuroModulation Institute</span></div>
+        <div style="margin-top:22px;display:flex;gap:10px">
+          <a href="#hero" class="ico" aria-label="LinkedIn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A8C6F0" stroke-width="1.5"><path d="M6 9v10M6 5v.5M11 19v-6a3 3 0 0 1 6 0v6"/></svg></a>
+          <a href="#hero" class="ico" aria-label="X"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A8C6F0" stroke-width="1.5"><path d="M5 5l14 14M19 5L5 19"/></svg></a>
+          <a href="#hero" class="ico" aria-label="YouTube"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A8C6F0" stroke-width="1.5"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="M11 10l4 2-4 2z"/></svg></a>
+        </div>
+      </div>
+      <div><span class="micro">Explore</span><div style="margin-top:18px;display:flex;flex-direction:column;gap:11px;font-size:13.5px">
+        <a href="#about">About</a><a href="#field">The field</a><a href="#program">Program</a><a href="#news">News</a><a href="#events">Events</a></div></div>
+      <div><span class="micro">Partners</span><div style="margin-top:18px;display:flex;flex-direction:column;gap:11px;font-size:13.5px">
+        <a href="#team">University of Toronto</a><a href="#team">UHN</a><a href="#team">SickKids</a><a href="#team">CAMH</a><a href="#team">Sunnybrook</a></div></div>
+      <div><span class="micro">Mailing list</span>
+        <p class="body" style="margin:16px 0 20px;font-size:13.5px">Program news, seminars and deadlines.</p>
+        <div class="fld"><label for="fn">Name</label><input id="fn" type="text" placeholder="Your name" style="height:46px"></div>
+        <div class="fld" style="margin-top:12px"><label for="fe">Email</label><input id="fe" type="email" placeholder="you@example.com" style="height:46px"></div>
+        <button class="btn btn-3 mag" style="width:100%;margin-top:14px"><span>Subscribe</span></button></div>
+    </div>
+  </div>
+  <div class="shell" style="height:clamp(70px,13vw,166px);overflow:hidden"><div class="word">GAINN</div></div>
+  <div class="shell" style="padding:22px 0 40px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <span style="font-size:12.5px;color:var(--tx-ghost)">© 2026 GAINN · CRANIA NeuroModulation Institute, University of Toronto</span>
+    <div style="display:flex;gap:22px;font-size:12.5px"><a href="#hero">Privacy</a><a href="#hero">Accessibility</a><a href="#hero">Back to top ↑</a></div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-function showEvents(which) {
-  var up = which === 'upcoming';
-  document.getElementById('eventsUpcoming').style.display = up ? 'block' : 'none';
-  document.getElementById('eventsPast').style.display = up ? 'none' : 'block';
-  document.getElementById('tabUpcoming').style.background = up ? '#7CA6E2' : 'transparent';
-  document.getElementById('tabUpcoming').style.color = up ? '#0A0D12' : '#A9B6C8';
-  document.getElementById('tabPast').style.background = up ? 'transparent' : '#7CA6E2';
-  document.getElementById('tabPast').style.color = up ? '#A9B6C8' : '#0A0D12';
-}
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ── repeated content ─────────────────────────── */
+const inst = ['University of Toronto','UHN','SickKids','CAMH','Sunnybrook'];
+const cond = ["Parkinson's disease",'Epilepsy','Stroke','Depression','Chronic pain','Spinal cord injury',"Alzheimer's disease"];
+const fill = (el, arr) => { el.innerHTML = (arr.map(x=>`<i>${x}</i>`).join('')).repeat(3); };
+fill(t1, inst); fill(t2, cond);
+
+const team = [['Luka Milosevic','Program Director'],['Suhail Asrar','Program Manager, CNMI'],['[TEAM MEMBER]','[ROLE]']];
+people.innerHTML = team.map((p,i)=>`
+ <article class="card person rv sp" style="--d:${i*.07}s">
+  <div class="face"><svg viewBox="0 0 250 216" preserveAspectRatio="none" aria-hidden="true">
+   <g stroke="rgba(124,166,226,.16)" fill="none"><path d="M${20+i*6} 182 L80 138 L138 164 L196 118 L244 146"/><path d="M80 138 L${100+i*8} 74 L172 56 L196 118"/></g>
+   <g fill="rgba(124,166,226,.5)"><circle cx="80" cy="138" r="3"/><circle cx="196" cy="118" r="3"/></g>
+   <g fill="#FF4A2B"><circle cx="172" cy="56" r="4"/></g></svg>
+   <span class="micro" style="position:absolute;left:22px;bottom:16px">[Photo]</span></div>
+  <div class="pad"><h3 class="ttl" style="font-size:17px">${p[0]}</h3>
+   <div class="micro" style="margin-top:5px;color:var(--blue);letter-spacing:.13em">${p[1]}</div>
+   <p class="body" style="margin-top:14px;font-size:13.5px">[SHORT BIO — two lines.]</p>
+   <div style="margin-top:20px;display:flex;gap:8px">
+    <a href="#team" class="ico" aria-label="Email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A8C6F0" stroke-width="1.5"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 8l9 6 9-6"/></svg></a>
+    <a href="#team" class="ico" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A8C6F0" stroke-width="1.5"><path d="M6 9v10M6 5v.5M11 19v-6a3 3 0 0 1 6 0v6"/></svg></a></div></div>
+ </article>`).join('') +
+ `<div class="card slot rv" style="--d:.21s"><span class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6E7E93" stroke-width="1.6"><path d="M12 5v14M5 12h14"/></svg></span>
+   <span class="micro">Slot available</span><span class="body" style="font-size:13.5px">[ADD TEAM MEMBER]</span></div>`;
+
+partners.innerHTML = inst.map((n,i)=>`
+ <div class="card rv sp" style="--d:${i*.05}s;padding:22px">
+  <div style="height:52px;border:1px dashed var(--line-2);border-radius:12px;display:grid;place-items:center" class="micro">[Logo]</div>
+  <h3 class="ttl" style="margin-top:18px;font-size:15px">${n}</h3></div>`).join('');
+
+/* ── reveal + counters ────────────────────────── */
+const io = new IntersectionObserver((es)=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);
+  e.target.querySelectorAll('[data-to]').forEach(count); }}),{threshold:.15,rootMargin:'0px 0px -60px'});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+function count(el){ const to=+el.dataset.to, pre=el.dataset.pre||'', post=el.dataset.post||'', dec=to%1?2:0, t0=performance.now();
+  const step=t=>{ const k=Math.min((t-t0)/1400,1), e=1-Math.pow(1-k,3);
+    el.textContent=pre+(to*e).toFixed(dec)+post; if(k<1)requestAnimationFrame(step); };
+  if(RM){ el.textContent=pre+to.toFixed(dec)+post; } else { requestAnimationFrame(step); } }
+
+/* ── nav, progress, active link ───────────────── */
+let last=0;
+addEventListener('scroll',()=>{ const y=scrollY, d=document.body.scrollHeight-innerHeight;
+  prog.style.transform=`scaleX(${d>0?y/d:0})`;
+  nav.classList.toggle('on', y>40);
+  nav.classList.toggle('up', y>last && y>420); last=y; },{passive:true});
+
+const links=[...document.querySelectorAll('.links a[href^="#"]')];
+document.querySelectorAll('section[id]').forEach(s=>new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting) links.forEach(a=>a.classList.toggle('cur',a.getAttribute('href')==='#'+s.id));
+}),{threshold:.35}).observe(s));
+
+/* ── card spotlight + magnetic buttons ────────── */
+document.addEventListener('mousemove',ev=>{
+  const c=ev.target.closest?.('.sp'); if(!c)return; const r=c.getBoundingClientRect();
+  c.style.setProperty('--mx',(ev.clientX-r.left)+'px'); c.style.setProperty('--my',(ev.clientY-r.top)+'px');
+});
+if(!RM) document.querySelectorAll('.mag').forEach(b=>{
+  b.addEventListener('mousemove',ev=>{ const r=b.getBoundingClientRect();
+    b.style.transform=`translate(${(ev.clientX-r.left-r.width/2)*.16}px,${(ev.clientY-r.top-r.height/2)*.28}px)`; });
+  b.addEventListener('mouseleave',()=>b.style.transform='');
+});
+
+/* ── events tabs ──────────────────────────────── */
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(o=>o.setAttribute('aria-selected',o===t));
+  const on=t.dataset.p==='up'; up.hidden=!on; past.hidden=on;
+  const el=on?up:past; el.classList.remove('fade'); void el.offsetWidth; el.classList.add('fade');
+}));
+
+/* ── hero headline ────────────────────────────── */
+addEventListener('load',()=>setTimeout(()=>heroIn.classList.add('lit'),120));
+setTimeout(()=>heroIn.classList.add('lit'),700);
+
+/* ════════ 3D BRAIN ════════ */
+(function(){
+  if(typeof THREE==='undefined') return;
+  const host=document.getElementById('gl');
+  const scene=new THREE.Scene();
+  const cam=new THREE.PerspectiveCamera(42,1,.1,100); cam.position.set(0,0,7.1);
+  const rnd=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});
+  rnd.setClearColor(0x000000,0); host.appendChild(rnd.domElement);
+
+  const grp=new THREE.Group(); grp.position.x=1.55; scene.add(grp);
+
+  /* brain-ish point field: two lobes, central fissure, lumpy surface */
+  const N=1150, pos=[], seed=[], size=[];
+  const noise=(x,y,z)=> .10*Math.sin(3.1*x+1.7)+.09*Math.sin(2.7*y+2.3)+.08*Math.sin(3.6*z+.9)
+                       +.05*Math.sin(6.2*x+4.1*y)+.045*Math.sin(5.4*y+3.3*z);
+  for(let i=0;i<N;i++){
+    const t=(i+.5)/N, phi=Math.acos(1-2*t), th=Math.PI*(1+Math.sqrt(5))*i;
+    let x=Math.sin(phi)*Math.cos(th), y=Math.sin(phi)*Math.sin(th), z=Math.cos(phi);
+    const r=1+noise(x,y,z);
+    x*=r*1.26; y*=r*.90; z*=r*1.02;
+    y-=.10*Math.pow(Math.abs(z),2);                  // tilt the frontal mass down
+    const f=Math.max(0,.16-Math.abs(x))*1.5;          // longitudinal fissure
+    x+=Math.sign(x||1)*f; y-=f*.55;
+    pos.push(x,y,z); seed.push(Math.random()); size.push(1.5+Math.random()*2.2);
+  }
+  const P=new Float32Array(pos);
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(P,3));
+  g.setAttribute('aSeed',new THREE.BufferAttribute(new Float32Array(seed),1));
+  g.setAttribute('aSize',new THREE.BufferAttribute(new Float32Array(size),1));
+
+  const U={uTime:{value:0},uPtr:{value:new THREE.Vector3(9,9,9)},uDpr:{value:1},uFade:{value:1}};
+  const pts=new THREE.Points(g,new THREE.ShaderMaterial({
+    transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:U,
+    vertexShader:`attribute float aSeed;attribute float aSize;uniform float uTime;uniform vec3 uPtr;uniform float uDpr;varying float vG;
+      void main(){vec3 p=position*(1.0+sin(uTime*.9+aSeed*6.283)*.014);
+        vec4 wp=modelMatrix*vec4(p,1.0);
+        float d=distance(wp.xyz,uPtr);
+        float glow=smoothstep(1.5,0.0,d);
+        float wave=sin(uTime*1.6-length(p)*5.0)*.5+.5;
+        vG=glow*1.15+wave*.14;
+        vec4 mv=viewMatrix*wp;
+        gl_PointSize=aSize*(1.0+glow*1.9)*uDpr*(14.0/-mv.z);
+        gl_Position=projectionMatrix*mv;}`,
+    fragmentShader:`varying float vG;uniform float uFade;
+      void main(){float d=length(gl_PointCoord-.5);if(d>.5)discard;
+        float a=smoothstep(.5,.06,d);
+        vec3 c=mix(vec3(.42,.62,.90),vec3(1.0,.32,.18),clamp(vG,0.,1.));
+        gl_FragColor=vec4(c,a*(.5+vG*.9)*uFade);}`
+  }));
+  grp.add(pts);
+
+  /* synapses: link each point to its 2 nearest neighbours */
+  const seg=[];
+  for(let i=0;i<N;i+=1){
+    const ax=P[i*3],ay=P[i*3+1],az=P[i*3+2]; let b1=-1,b2=-1,d1=9,d2=9;
+    for(let j=0;j<N;j+=3){ if(j===i)continue;
+      const dx=ax-P[j*3],dy=ay-P[j*3+1],dz=az-P[j*3+2],d=dx*dx+dy*dy+dz*dz;
+      if(d<d1){d2=d1;b2=b1;d1=d;b1=j;} else if(d<d2){d2=d;b2=j;} }
+    [b1,b2].forEach(b=>{ if(b>-1) seg.push(ax,ay,az,P[b*3],P[b*3+1],P[b*3+2]); });
+  }
+  const lg=new THREE.BufferGeometry();
+  lg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(seg),3));
+  const lines=new THREE.LineSegments(lg,new THREE.ShaderMaterial({
+    transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:U,
+    vertexShader:`uniform vec3 uPtr;uniform float uTime;varying float vG;
+      void main(){vec4 wp=modelMatrix*vec4(position,1.0);
+        float d=distance(wp.xyz,uPtr);
+        vG=smoothstep(1.7,0.0,d)+ (sin(uTime*2.2-position.y*4.0)*.5+.5)*.10;
+        gl_Position=projectionMatrix*viewMatrix*wp;}`,
+    fragmentShader:`varying float vG;uniform float uFade;
+      void main(){vec3 c=mix(vec3(.30,.44,.72),vec3(1.0,.36,.2),clamp(vG,0.,1.));
+        gl_FragColor=vec4(c,(.10+vG*.55)*uFade);}`
+  }));
+  grp.add(lines);
+
+  /* electrode lead — the red stem from the mark */
+  const lead=new THREE.Group();
+  const stem=new THREE.Mesh(new THREE.CylinderGeometry(.012,.012,3.4,8),
+    new THREE.MeshBasicMaterial({color:0xff4a2b,transparent:true,opacity:.85}));
+  stem.position.y=1.5; lead.add(stem);
+  const tip=new THREE.Mesh(new THREE.SphereGeometry(.085,20,20),new THREE.MeshBasicMaterial({color:0xff4a2b}));
+  tip.position.y=-.18; lead.add(tip);
+  const halo=new THREE.Mesh(new THREE.SphereGeometry(.30,20,20),
+    new THREE.MeshBasicMaterial({color:0xff4a2b,transparent:true,opacity:.14,blending:THREE.AdditiveBlending}));
+  halo.position.y=-.18; lead.add(halo);
+  const cap=new THREE.Mesh(new THREE.SphereGeometry(.055,16,16),new THREE.MeshBasicMaterial({color:0xff4a2b}));
+  cap.position.y=3.2; lead.add(cap);
+  lead.position.set(-.05,.25,.15); grp.add(lead);
+
+  /* pointer → world point on the plane the brain sits in */
+  const ptr=new THREE.Vector3(9,9,9), want=new THREE.Vector3(9,9,9);
+  const ray=new THREE.Raycaster(), plane=new THREE.Plane(new THREE.Vector3(0,0,1),0), hit=new THREE.Vector3();
+  let mx=0,my=0,tx=0,ty=0,active=false;
+  addEventListener('pointermove',e=>{
+    const w=innerWidth,h=innerHeight;
+    mx=(e.clientX/w)*2-1; my=-(e.clientY/h)*2+1;
+    tx=my*.26; ty=mx*.5; active=true;
+    ray.setFromCamera({x:mx,y:my},cam);
+    if(ray.ray.intersectPlane(plane,hit)) want.copy(hit);
+  },{passive:true});
+  addEventListener('pointerleave',()=>{active=false;want.set(9,9,9)});
+
+  function resize(){ const w=host.clientWidth,h=host.clientHeight;
+    cam.aspect=w/h; cam.updateProjectionMatrix(); rnd.setSize(w,h,false);
+    const dpr=Math.min(devicePixelRatio,2); rnd.setPixelRatio(dpr); U.uDpr.value=dpr;
+    const narrow=w<820; grp.position.x=narrow?0:1.55; grp.scale.setScalar(narrow?1.15:1.5);
+  }
+  addEventListener('resize',resize); resize();
+
+  const clock=new THREE.Clock(); let sc=0, spin=0, ox=0, oy=0;
+  addEventListener('scroll',()=>{ sc=Math.min(scrollY/innerHeight,1.2); },{passive:true});
+
+  (function loop(){
+    requestAnimationFrame(loop);
+    const t=clock.getElapsedTime(); U.uTime.value=t;
+    ptr.lerp(want,.12); U.uPtr.value.copy(ptr);
+    spin += RM?0:.0016;
+    oy += (ty-oy)*.05; ox += (tx-ox)*.05;
+    grp.rotation.y = spin + oy + sc*.55;
+    grp.rotation.x = ox + sc*.12;
+    grp.rotation.z = Math.sin(t*.25)*.05;
+    grp.position.y = -sc*1.5 + Math.sin(t*.5)*.05;
+    U.uFade.value = Math.max(0,1-sc*1.05);
+    host.style.opacity = U.uFade.value;
+    const pulse=(Math.sin(t*2.4)*.5+.5);
+    halo.scale.setScalar(1+pulse*.5); halo.material.opacity=.06+pulse*.14;
+    tip.scale.setScalar(1+pulse*.18);
+    lead.rotation.z=Math.sin(t*.6)*.04;
+    if(U.uFade.value>0.01) rnd.render(scene,cam);
+  })();
+})();
 </script>
 </body>
 </html>
