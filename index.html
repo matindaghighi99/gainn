@@ -95,24 +95,50 @@ nav.on .bar{height:64px}
 #gl{position:absolute;inset:0;z-index:0}
 #gl canvas{display:block;width:100%;height:100%}
 .hero-fx{position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:radial-gradient(900px 620px at 72% 42%,rgba(30,55,101,.42),rgba(6,9,14,0) 70%)}
-.grain{position:absolute;inset:0;pointer-events:none;opacity:.2;z-index:2}
-.hero-in{position:relative;z-index:3;max-width:660px}
-.tag{display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 16px 0 12px;border:1px solid rgba(124,166,226,.3);border-radius:999px;background:rgba(30,55,101,.24);backdrop-filter:blur(6px)}
-.tag span{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--link)}
+  background:
+    radial-gradient(700px 500px at 70% 45%,rgba(255,74,43,.055),rgba(6,9,14,0) 64%),
+    radial-gradient(980px 680px at 74% 40%,rgba(30,55,101,.44),rgba(6,9,14,0) 70%),
+    radial-gradient(115% 105% at 6% 50%,rgba(6,9,14,.88),rgba(6,9,14,0) 56%)}
+.grain{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.12;z-index:2}
+.hero-in{position:relative;z-index:3;max-width:680px}
+
+/* headline: masked word reveal, gradient fill, one sheen pass */
 .w{display:inline-block;overflow:hidden;vertical-align:bottom}
-.w i{display:inline-block;font-style:inherit;transform:translateY(110%);transition:transform 1s var(--ease);transition-delay:var(--d)}
+.w i{display:inline-block;font-style:inherit;transform:translateY(112%) rotate(2.6deg);
+  transform-origin:0 100%;transition:transform 1.25s cubic-bezier(.16,1,.3,1);transition-delay:var(--d)}
 .lit .w i{transform:none}
-.hero-sub{display:flex;gap:22px;margin-top:30px;max-width:520px}
-.hero-sub .bar-r{width:52px;height:1px;background:rgba(255,74,43,.9);margin-top:14px;flex:none}
-.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  #hl{background:linear-gradient(104deg,#FFFFFF 0%,#EDF3FC 26%,#FFFFFF 38%,#D2E0F1 60%,#A9BDD8 100%);
+    background-size:230% 100%;background-position:0 0;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent}
+  .lit#hl,.lit #hl{animation:sheen 2.8s cubic-bezier(.22,1,.36,1) .3s both}
+  #hl .it{background:linear-gradient(100deg,#8FB6EA 0%,#C6DAF6 44%,#FF8A73 100%);
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent}
+}
+@keyframes sheen{from{background-position:100% 0}to{background-position:0 0}}
+#hl .it{position:relative;font-style:italic}
+#hl .it::after{content:"";position:absolute;left:.03em;right:.03em;bottom:.04em;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,rgba(124,166,226,0),#7CA6E2 22%,#FF4A2B 78%,rgba(255,74,43,0));
+  transform:scaleX(0);transform-origin:left;transition:transform 1.2s cubic-bezier(.16,1,.3,1) 1.3s}
+.lit #hl .it::after{transform:scaleX(1);animation:sync 3.4s ease-in-out 2.6s infinite}
+@keyframes sync{0%,100%{opacity:.5}12%{opacity:1}40%{opacity:.62}}
+
+.hero-sub{display:flex;gap:22px;margin-top:32px;max-width:530px}
+.hero-sub .bar-r{width:56px;height:1px;background:linear-gradient(90deg,var(--red),rgba(255,74,43,.15));margin-top:15px;flex:none}
+.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:42px}
+.cta .btn-1{box-shadow:0 10px 38px -16px rgba(255,74,43,.85)}
 .stats{display:flex;gap:44px;margin-top:56px;flex-wrap:wrap}
 .stat b{display:block;font-family:var(--serif);font-weight:300;font-size:38px;line-height:1;letter-spacing:-.03em;color:var(--tx-strong);font-variant-numeric:tabular-nums}
 .stat i{display:block;margin-top:9px;font-style:normal;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--tx-faint)}
 .cue{position:absolute;left:0;bottom:34px;z-index:3;display:flex;align-items:center;gap:14px}
 .cue .ln{width:1px;height:34px;background:linear-gradient(var(--blue),transparent);animation:cue 2.6s var(--ease) infinite}
 @keyframes cue{0%,100%{transform:scaleY(.4);opacity:.4}50%{transform:scaleY(1);opacity:1}}
-.hint{position:absolute;right:0;bottom:36px;z-index:3;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--tx-ghost)}
+.hint{position:absolute;right:0;bottom:36px;z-index:3;display:flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--tx-ghost)}
+.hint::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--red);
+  box-shadow:0 0 10px rgba(255,74,43,.9);animation:sync 3.4s ease-in-out infinite}
 
 /* ── marquee ──────────────────────────────────── */
 .mq{overflow:hidden;padding:26px 0;display:flex;align-items:center;gap:36px}
@@ -211,7 +237,7 @@ footer{position:relative;background:var(--footer);border-top:1px solid var(--lin
   .g3,.g4,.g5{grid-template-columns:1fr}
   .stats{gap:28px}
   .ev{flex-wrap:wrap;gap:18px}
-  .hero-fx{background:radial-gradient(700px 500px at 50% 30%,rgba(30,55,101,.4),rgba(6,9,14,0) 70%)}
+  .hero-fx{background:linear-gradient(180deg,rgba(6,9,14,.86),rgba(6,9,14,.42) 46%,rgba(6,9,14,0) 74%),radial-gradient(700px 500px at 50% 34%,rgba(30,55,101,.4),rgba(6,9,14,0) 70%)}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition-duration:.01ms!important}
@@ -576,136 +602,384 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
 addEventListener('load',()=>setTimeout(()=>heroIn.classList.add('lit'),120));
 setTimeout(()=>heroIn.classList.add('lit'),700);
 
-/* ════════ 3D BRAIN ════════ */
+/* ════════ HERO — neural field + DBS lead ════════ */
 (function(){
   if(typeof THREE==='undefined') return;
-  const host=document.getElementById('gl');
-  const scene=new THREE.Scene();
-  const cam=new THREE.PerspectiveCamera(42,1,.1,100); cam.position.set(0,0,7.1);
-  const rnd=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});
-  rnd.setClearColor(0x000000,0); host.appendChild(rnd.domElement);
+  const host=document.getElementById('gl'); if(!host) return;
 
-  const grp=new THREE.Group(); grp.position.x=1.55; scene.add(grp);
-
-  /* brain-ish point field: two lobes, central fissure, lumpy surface */
-  const N=1150, pos=[], seed=[], size=[];
-  const noise=(x,y,z)=> .10*Math.sin(3.1*x+1.7)+.09*Math.sin(2.7*y+2.3)+.08*Math.sin(3.6*z+.9)
-                       +.05*Math.sin(6.2*x+4.1*y)+.045*Math.sin(5.4*y+3.3*z);
-  for(let i=0;i<N;i++){
-    const t=(i+.5)/N, phi=Math.acos(1-2*t), th=Math.PI*(1+Math.sqrt(5))*i;
-    let x=Math.sin(phi)*Math.cos(th), y=Math.sin(phi)*Math.sin(th), z=Math.cos(phi);
-    const r=1+noise(x,y,z);
-    x*=r*1.26; y*=r*.90; z*=r*1.02;
-    y-=.10*Math.pow(Math.abs(z),2);                  // tilt the frontal mass down
-    const f=Math.max(0,.16-Math.abs(x))*1.5;          // longitudinal fissure
-    x+=Math.sign(x||1)*f; y-=f*.55;
-    pos.push(x,y,z); seed.push(Math.random()); size.push(1.5+Math.random()*2.2);
+  /* ── value noise → gyral folding ──────────────── */
+  function hash(i,j,k){
+    let h=Math.imul(i|0,374761393)^Math.imul(j|0,668265263)^Math.imul(k|0,1274126177);
+    h=Math.imul(h^(h>>>13),1274126177);
+    return ((h^(h>>>16))>>>0)/4294967295;
   }
-  const P=new Float32Array(pos);
+  function vnoise(x,y,z){
+    const xi=Math.floor(x),yi=Math.floor(y),zi=Math.floor(z);
+    const xf=x-xi,yf=y-yi,zf=z-zi;
+    const u=xf*xf*(3-2*xf),v=yf*yf*(3-2*yf),w=zf*zf*(3-2*zf);
+    const h=(a,b,c)=>hash(xi+a,yi+b,zi+c);
+    const x0=h(0,0,0)+(h(1,0,0)-h(0,0,0))*u, x1=h(0,1,0)+(h(1,1,0)-h(0,1,0))*u;
+    const x2=h(0,0,1)+(h(1,0,1)-h(0,0,1))*u, x3=h(0,1,1)+(h(1,1,1)-h(0,1,1))*u;
+    const y0=x0+(x1-x0)*v, y1=x2+(x3-x2)*v;
+    return y0+(y1-y0)*w;
+  }
+  /* ridged fbm — sharp valleys read as sulci, crowns as gyri */
+  function gyri(x,y,z){
+    let s=0,a=.55,f=1.9;
+    for(let o=0;o<4;o++){ s+=a*(1-Math.abs(vnoise(x*f,y*f,z*f)*2-1)); a*=.5; f*=2.03; }
+    return s;
+  }
+
+  /* ── point cloud: cerebrum + cerebellum + brainstem ── */
+  const pos=[],seed=[],size=[];
+  const add=(x,y,z,s)=>{ pos.push(x,y,z); seed.push(Math.random()); size.push(s); };
+
+  const NC=2100;
+  for(let i=0;i<NC;i++){
+    const t=(i+.5)/NC, phi=Math.acos(1-2*t), th=Math.PI*(1+Math.sqrt(5))*i;
+    const dx=Math.sin(phi)*Math.cos(th), dy=Math.sin(phi)*Math.sin(th), dz=Math.cos(phi);
+    const r=1+(gyri(dx*1.6+11.3,dy*1.6+4.1,dz*1.6+7.7)-.55)*.16;
+    let x=dx*r*1.04, y=dy*r*.90, z=dz*r*1.27;
+    const tl=Math.max(0,-y-.06)*Math.max(0,Math.abs(x)-.22);   // temporal lobes
+    x+=Math.sign(x||1)*tl*.95; y-=tl*.30; z+=tl*.20;
+    if(z>0) y+=z*z*.09;                                        // frontal pole lifts
+    if(z<-.45){ const o=-z-.45; y-=o*o*.55; x*=1-o*.16; }      // occipital taper
+    if(y<-.52) y=-.52+(y+.52)*.55;                             // flat inferior surface
+    const f=Math.max(0,.17-Math.abs(x))*1.35;                  // longitudinal fissure
+    x+=Math.sign(x||1)*f; y-=f*.5;
+    add(x,y,z,(1.3+Math.random()*1.5)*(Math.random()<.06?1.9:1));
+  }
+
+  const NB=400;
+  for(let i=0;i<NB;i++){
+    const t=(i+.5)/NB, phi=Math.acos(1-2*t), th=Math.PI*(1+Math.sqrt(5))*i;
+    const dx=Math.sin(phi)*Math.cos(th), dy=Math.sin(phi)*Math.sin(th), dz=Math.cos(phi);
+    const r=1+(Math.sin(dy*26)*.5+.5)*.10+(gyri(dx*3+30,dy*3+2,dz*3+9)-.55)*.10; // folia
+    let x=dx*r*.63, y=dy*r*.34-.62, z=dz*r*.46-.84;
+    x+=Math.sign(x||1)*Math.max(0,.09-Math.abs(x))*1.1;
+    add(x,y,z,1.05+Math.random()*1.1);
+  }
+
+  const NS=130;
+  for(let i=0;i<NS;i++){
+    const t=i/NS, a=i*2.39996, rr=.15-t*.055;
+    add(Math.cos(a)*rr,-.44-t*.88,-.28+t*.10+Math.sin(a)*rr*.9,.95+Math.random()*1.0);
+  }
+
+  /* forward tilt — reads as an anatomical pose rather than a sphere */
+  const TL=.14, ct=Math.cos(TL), st=Math.sin(TL);
+  for(let i=0;i<pos.length;i+=3){
+    const y=pos[i+1],z=pos[i+2]; pos[i+1]=y*ct-z*st; pos[i+2]=y*st+z*ct;
+  }
+
+  const N=pos.length/3, P=new Float32Array(pos);
   const g=new THREE.BufferGeometry();
   g.setAttribute('position',new THREE.BufferAttribute(P,3));
   g.setAttribute('aSeed',new THREE.BufferAttribute(new Float32Array(seed),1));
   g.setAttribute('aSize',new THREE.BufferAttribute(new Float32Array(size),1));
 
-  const U={uTime:{value:0},uPtr:{value:new THREE.Vector3(9,9,9)},uDpr:{value:1},uFade:{value:1}};
-  const pts=new THREE.Points(g,new THREE.ShaderMaterial({
-    transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:U,
-    vertexShader:`attribute float aSeed;attribute float aSize;uniform float uTime;uniform vec3 uPtr;uniform float uDpr;varying float vG;
-      void main(){vec3 p=position*(1.0+sin(uTime*.9+aSeed*6.283)*.014);
-        vec4 wp=modelMatrix*vec4(p,1.0);
-        float d=distance(wp.xyz,uPtr);
-        float glow=smoothstep(1.5,0.0,d);
-        float wave=sin(uTime*1.6-length(p)*5.0)*.5+.5;
-        vG=glow*1.15+wave*.14;
-        vec4 mv=viewMatrix*wp;
-        gl_PointSize=aSize*(1.0+glow*1.9)*uDpr*(14.0/-mv.z);
-        gl_Position=projectionMatrix*mv;}`,
-    fragmentShader:`varying float vG;uniform float uFade;
-      void main(){float d=length(gl_PointCoord-.5);if(d>.5)discard;
-        float a=smoothstep(.5,.06,d);
-        vec3 c=mix(vec3(.42,.62,.90),vec3(1.0,.32,.18),clamp(vG,0.,1.));
-        gl_FragColor=vec4(c,a*(.5+vG*.9)*uFade);}`
-  }));
-  grp.add(pts);
-
-  /* synapses: link each point to its 2 nearest neighbours */
-  const seg=[];
-  for(let i=0;i<N;i+=1){
-    const ax=P[i*3],ay=P[i*3+1],az=P[i*3+2]; let b1=-1,b2=-1,d1=9,d2=9;
-    for(let j=0;j<N;j+=3){ if(j===i)continue;
-      const dx=ax-P[j*3],dy=ay-P[j*3+1],dz=az-P[j*3+2],d=dx*dx+dy*dy+dz*dz;
-      if(d<d1){d2=d1;b2=b1;d1=d;b1=j;} else if(d<d2){d2=d;b2=j;} }
-    [b1,b2].forEach(b=>{ if(b>-1) seg.push(ax,ay,az,P[b*3],P[b*3+1],P[b*3+2]); });
+  /* ── connectome: k-nearest via uniform grid ───── */
+  const CELL=.30, CUT=.30*.30, LINK=3, grid=new Map();
+  const cid=(a,b,c)=>(a+64)*16384+(b+64)*128+(c+64);
+  for(let i=0;i<N;i++){
+    const k=cid(Math.floor(P[i*3]/CELL),Math.floor(P[i*3+1]/CELL),Math.floor(P[i*3+2]/CELL));
+    let a=grid.get(k); if(!a){a=[];grid.set(k,a);} a.push(i);
+  }
+  const seg=[], best=[], bd=[];
+  for(let i=0;i<N;i++){
+    const ax=P[i*3],ay=P[i*3+1],az=P[i*3+2];
+    const gx=Math.floor(ax/CELL),gy=Math.floor(ay/CELL),gz=Math.floor(az/CELL);
+    best.length=0; bd.length=0;
+    for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++)for(let c=-1;c<=1;c++){
+      const arr=grid.get(cid(gx+a,gy+b,gz+c)); if(!arr) continue;
+      for(let q=0;q<arr.length;q++){
+        const j=arr[q]; if(j<=i) continue;
+        const dx=ax-P[j*3],dy=ay-P[j*3+1],dz=az-P[j*3+2],d=dx*dx+dy*dy+dz*dz;
+        if(d>CUT) continue;
+        let p=best.length; while(p>0&&bd[p-1]>d) p--;
+        if(p<LINK){ best.splice(p,0,j); bd.splice(p,0,d);
+          if(best.length>LINK){ best.pop(); bd.pop(); } }
+      }
+    }
+    for(let q=0;q<best.length;q++){ const j=best[q];
+      seg.push(ax,ay,az,P[j*3],P[j*3+1],P[j*3+2]); }
   }
   const lg=new THREE.BufferGeometry();
   lg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(seg),3));
-  const lines=new THREE.LineSegments(lg,new THREE.ShaderMaterial({
-    transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:U,
-    vertexShader:`uniform vec3 uPtr;uniform float uTime;varying float vG;
-      void main(){vec4 wp=modelMatrix*vec4(position,1.0);
-        float d=distance(wp.xyz,uPtr);
-        vG=smoothstep(1.7,0.0,d)+ (sin(uTime*2.2-position.y*4.0)*.5+.5)*.10;
-        gl_Position=projectionMatrix*viewMatrix*wp;}`,
-    fragmentShader:`varying float vG;uniform float uFade;
-      void main(){vec3 c=mix(vec3(.30,.44,.72),vec3(1.0,.36,.2),clamp(vG,0.,1.));
-        gl_FragColor=vec4(c,(.10+vG*.55)*uFade);}`
+
+  /* ── scene ────────────────────────────────────── */
+  const scene=new THREE.Scene();
+  const cam=new THREE.PerspectiveCamera(42,1,.1,100); cam.position.set(0,0,7.1);
+  const rnd=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});
+  rnd.setClearColor(0x000000,0); host.appendChild(rnd.domElement);
+  const grp=new THREE.Group(); grp.position.x=1.55; scene.add(grp);
+
+  const TIP=new THREE.Vector3(-.05,.02,.18);
+  const U={ uTime:{value:0}, uPtr:{value:new THREE.Vector3(99,99,99)}, uDpr:{value:1},
+            uFade:{value:1}, uTip:{value:TIP.clone()}, uWave:{value:0}, uWaveAmp:{value:0},
+            uSize:{value:1} };
+
+  /* ── neurons ──────────────────────────────────── */
+  const pts=new THREE.Points(g,new THREE.ShaderMaterial({
+    transparent:true,depthWrite:false,depthTest:false,blending:THREE.AdditiveBlending,uniforms:U,
+    vertexShader:`
+      attribute float aSeed; attribute float aSize;
+      uniform float uTime,uDpr,uWave,uWaveAmp,uSize; uniform vec3 uPtr,uTip;
+      varying float vG; varying float vF;
+      void main(){
+        vec3 p=position*(1.0+sin(uTime*.85+aSeed*6.2831)*.011);
+        vec4 wp=modelMatrix*vec4(p,1.0);
+        vec3 wn=normalize(mat3(modelMatrix)*normalize(position));
+        float facing=clamp(dot(wn,normalize(cameraPosition-wp.xyz))*.5+.5,0.0,1.0);
+        vF=facing;
+        float glow=smoothstep(.85,0.0,distance(wp.xyz,uPtr));
+        float ring=exp(-pow((distance(p,uTip)-uWave)*3.4,2.0))*uWaveAmp;
+        float tw=sin(uTime*1.7+aSeed*12.0)*.5+.5;
+        vG=glow*.9+ring*.85+tw*.06;
+        vec4 mv=viewMatrix*wp;
+        gl_PointSize=aSize*uSize*(.5+facing*.75)*(1.0+glow*.65+ring*.5)*uDpr*(12.5/-mv.z);
+        gl_Position=projectionMatrix*mv;
+      }`,
+    fragmentShader:`
+      uniform float uFade; varying float vG; varying float vF;
+      void main(){
+        float d=length(gl_PointCoord-.5); if(d>.5) discard;
+        float a=exp(-d*d*34.0)+exp(-d*d*9.0)*.30;
+        vec3 cool=mix(vec3(.26,.40,.70),vec3(.70,.85,1.0),vF);
+        vec3 c=mix(cool,vec3(1.0,.42,.22),clamp(vG,0.0,1.0));
+        c+=vec3(1.0,.86,.78)*pow(clamp(vG,0.0,1.0),3.5)*.40;
+        gl_FragColor=vec4(c,a*mix(.22,1.0,vF)*(.66+vG*.62)*uFade);
+      }`
   }));
-  grp.add(lines);
+  pts.renderOrder=1; grp.add(pts);
 
-  /* electrode lead — the red stem from the mark */
-  const lead=new THREE.Group();
-  const stem=new THREE.Mesh(new THREE.CylinderGeometry(.012,.012,3.4,8),
-    new THREE.MeshBasicMaterial({color:0xff4a2b,transparent:true,opacity:.85}));
-  stem.position.y=1.5; lead.add(stem);
-  const tip=new THREE.Mesh(new THREE.SphereGeometry(.085,20,20),new THREE.MeshBasicMaterial({color:0xff4a2b}));
-  tip.position.y=-.18; lead.add(tip);
-  const halo=new THREE.Mesh(new THREE.SphereGeometry(.30,20,20),
-    new THREE.MeshBasicMaterial({color:0xff4a2b,transparent:true,opacity:.14,blending:THREE.AdditiveBlending}));
-  halo.position.y=-.18; lead.add(halo);
-  const cap=new THREE.Mesh(new THREE.SphereGeometry(.055,16,16),new THREE.MeshBasicMaterial({color:0xff4a2b}));
-  cap.position.y=3.2; lead.add(cap);
-  lead.position.set(-.05,.25,.15); grp.add(lead);
+  /* ── connectome edges ─────────────────────────── */
+  const lines=new THREE.LineSegments(lg,new THREE.ShaderMaterial({
+    transparent:true,depthWrite:false,depthTest:false,blending:THREE.AdditiveBlending,uniforms:U,
+    vertexShader:`
+      uniform float uTime,uWave,uWaveAmp; uniform vec3 uPtr,uTip;
+      varying float vG; varying float vF;
+      void main(){
+        vec4 wp=modelMatrix*vec4(position,1.0);
+        vec3 wn=normalize(mat3(modelMatrix)*normalize(position));
+        vF=clamp(dot(wn,normalize(cameraPosition-wp.xyz))*.5+.5,0.0,1.0);
+        float glow=smoothstep(.95,0.0,distance(wp.xyz,uPtr));
+        float ring=exp(-pow((distance(position,uTip)-uWave)*3.0,2.0))*uWaveAmp;
+        vG=glow*.8+ring*.75+(sin(uTime*2.0-position.y*4.0)*.5+.5)*.06;
+        gl_Position=projectionMatrix*viewMatrix*wp;
+      }`,
+    fragmentShader:`
+      uniform float uFade; varying float vG; varying float vF;
+      void main(){
+        vec3 cool=mix(vec3(.14,.22,.42),vec3(.40,.58,.90),vF);
+        vec3 c=mix(cool,vec3(1.0,.40,.22),clamp(vG,0.0,1.0));
+        gl_FragColor=vec4(c,(.085+vG*.40)*mix(.22,1.0,vF)*uFade);
+      }`
+  }));
+  lines.renderOrder=0; grp.add(lines);
 
-  /* pointer → world point on the plane the brain sits in */
-  const ptr=new THREE.Vector3(9,9,9), want=new THREE.Vector3(9,9,9);
+  /* ── DBS lead ─────────────────────────────────── */
+  const RED=new THREE.Color(0xff4a2b);
+  const solidVert=`
+    varying vec3 vN; varying vec3 vW; varying float vY;
+    void main(){ vN=normalize(mat3(modelMatrix)*normal); vec4 wp=modelMatrix*vec4(position,1.0);
+      vW=wp.xyz; vY=position.y; gl_Position=projectionMatrix*viewMatrix*wp; }`;
+
+  /* camera-facing quad — glows have no geometry silhouette, so no hard edges */
+  const billboard=(scale,ro,frag,extra)=>{
+    const m=new THREE.Mesh(new THREE.PlaneGeometry(2,2),new THREE.ShaderMaterial({
+      transparent:true,depthWrite:false,depthTest:false,blending:THREE.AdditiveBlending,
+      uniforms:Object.assign({uA:{value:0},uCol:{value:RED},uFade:U.uFade,uScale:{value:scale}},extra||{}),
+      vertexShader:`
+        uniform float uScale; varying vec2 vUv;
+        void main(){ vUv=uv; float s=length(modelMatrix[0].xyz);
+          vec4 mv=viewMatrix*modelMatrix*vec4(0.0,0.0,0.0,1.0);
+          mv.xy+=position.xy*uScale*s; gl_Position=projectionMatrix*mv; }`,
+      fragmentShader:frag
+    }));
+    m.renderOrder=ro; return m;
+  };
+  const GLOW=`
+    uniform float uA,uFade,uK; uniform vec3 uCol; varying vec2 vUv;
+    void main(){ float d=length(vUv-.5)*2.0;
+      gl_FragColor=vec4(uCol,exp(-d*d*uK)*uA*uFade); }`;
+
+  const lead=new THREE.Group(); lead.position.copy(TIP); grp.add(lead);
+
+  /* shaft: opaque rod, bright down the centreline, fading out as it leaves frame */
+  const shaft=new THREE.Mesh(new THREE.CylinderGeometry(.020,.020,5.0,32,1,true),
+    new THREE.ShaderMaterial({
+      transparent:true,depthWrite:false,depthTest:false,side:THREE.FrontSide,
+      uniforms:{uFade:U.uFade,uCol:{value:RED}},
+      vertexShader:solidVert,
+      fragmentShader:`
+        uniform float uFade; uniform vec3 uCol;
+        varying vec3 vN; varying vec3 vW; varying float vY;
+        void main(){
+          float nv=abs(dot(normalize(vN),normalize(cameraPosition-vW)));
+          vec3 c=mix(vec3(.24,.04,.02),uCol,nv)+vec3(1.0,.82,.72)*pow(nv,5.0)*.42;
+          gl_FragColor=vec4(c,(.55+nv*.45)*mix(.05,1.0,smoothstep(2.5,-1.4,vY))*uFade);
+        }`
+    }));
+  shaft.position.y=3.0; shaft.renderOrder=3; lead.add(shaft);
+
+  /* distal body the contacts ride on — deliberately dull so the rings read */
+  const distal=new THREE.Mesh(new THREE.CylinderGeometry(.023,.023,.52,32,1,true),
+    new THREE.ShaderMaterial({
+      transparent:true,depthWrite:false,depthTest:false,side:THREE.FrontSide,
+      uniforms:{uFade:U.uFade,uCol:{value:RED}},
+      vertexShader:solidVert,
+      fragmentShader:`
+        uniform float uFade; uniform vec3 uCol;
+        varying vec3 vN; varying vec3 vW; varying float vY;
+        void main(){
+          float nv=abs(dot(normalize(vN),normalize(cameraPosition-vW)));
+          gl_FragColor=vec4(mix(vec3(.18,.03,.015),uCol*.72,nv),(.7+nv*.3)*uFade);
+        }`
+    }));
+  distal.position.y=.25; distal.renderOrder=3; lead.add(distal);
+
+  /* additive bloom sleeve around the shaft */
+  const sleeve=new THREE.Mesh(new THREE.CylinderGeometry(.075,.075,5.4,32,1,true),
+    new THREE.ShaderMaterial({
+      transparent:true,depthWrite:false,depthTest:false,blending:THREE.AdditiveBlending,side:THREE.BackSide,
+      uniforms:{uFade:U.uFade,uCol:{value:RED},uA:{value:.38}},
+      vertexShader:solidVert,
+      fragmentShader:`
+        uniform float uFade,uA; uniform vec3 uCol;
+        varying vec3 vN; varying vec3 vW; varying float vY;
+        void main(){
+          float nv=abs(dot(normalize(vN),normalize(cameraPosition-vW)));
+          gl_FragColor=vec4(uCol,pow(nv,2.2)*uA*smoothstep(2.7,-1.2,vY)*uFade);
+        }`
+    }));
+  sleeve.position.y=2.62; sleeve.renderOrder=2; lead.add(sleeve);
+
+  /* four ring contacts — they charge in sequence before each pulse */
+  const contacts=[];
+  for(let i=0;i<4;i++){
+    const c=new THREE.Mesh(new THREE.CylinderGeometry(.040,.040,.058,32),
+      new THREE.ShaderMaterial({
+        transparent:true,depthWrite:false,depthTest:false,blending:THREE.AdditiveBlending,
+        uniforms:{uFade:U.uFade,uCol:{value:RED},uA:{value:.6}},
+        vertexShader:solidVert,
+        fragmentShader:`
+          uniform float uFade,uA; uniform vec3 uCol;
+          varying vec3 vN; varying vec3 vW; varying float vY;
+          void main(){
+            float nv=abs(dot(normalize(vN),normalize(cameraPosition-vW)));
+            vec3 c=uCol*(.80+nv*.55)+vec3(1.0,.86,.74)*pow(nv,2.6)*(.22+uA*.70);
+            gl_FragColor=vec4(c,(.60+nv*.40)*uFade);
+          }`
+      }));
+    c.position.y=.09+i*.10; c.renderOrder=3; lead.add(c); contacts.push(c);
+  }
+
+  /* volume-conduction front: a soft annulus that expands away from the contacts */
+  const field=billboard(2.6,2,`
+    uniform float uA,uFade,uR,uW; uniform vec3 uCol; varying vec2 vUv;
+    void main(){ float d=length(vUv-.5)*2.0;
+      float a=exp(-pow((d-uR)/uW,2.0))*(1.0-smoothstep(.72,.98,d));
+      gl_FragColor=vec4(uCol,a*uA*uFade); }`,
+    {uR:{value:0},uW:{value:.16}});
+  lead.add(field);
+
+  /* the focus: white-hot core inside stacked soft glows */
+  const halo=billboard(1.35,4,GLOW,{uK:{value:5.0}});  halo.material.uniforms.uA.value=.10; lead.add(halo);
+  const mid =billboard(.62,4,GLOW,{uK:{value:7.0}});   mid.material.uniforms.uA.value=.34;  lead.add(mid);
+  const near=billboard(.22,4,GLOW,{uK:{value:9.0}});   near.material.uniforms.uA.value=.55; lead.add(near);
+
+  const core=new THREE.Mesh(new THREE.SphereGeometry(.068,32,24),new THREE.ShaderMaterial({
+    transparent:true,depthWrite:false,depthTest:false,
+    uniforms:{uCol:{value:RED},uA:{value:1},uFade:U.uFade},
+    vertexShader:solidVert,
+    fragmentShader:`
+      uniform vec3 uCol; uniform float uA,uFade;
+      varying vec3 vN; varying vec3 vW;
+      void main(){ float f=abs(dot(normalize(vN),normalize(cameraPosition-vW)));
+        gl_FragColor=vec4(mix(uCol,vec3(1.0,.96,.92),pow(f,1.7)),uA*uFade); }`
+  }));
+  core.renderOrder=5; lead.add(core);
+
+  /* ── input ────────────────────────────────────── */
+  const ptr=new THREE.Vector3(99,99,99), want=new THREE.Vector3(99,99,99);
   const ray=new THREE.Raycaster(), plane=new THREE.Plane(new THREE.Vector3(0,0,1),0), hit=new THREE.Vector3();
-  let mx=0,my=0,tx=0,ty=0,active=false;
+  let rxT=0,ryT=0;
   addEventListener('pointermove',e=>{
-    const w=innerWidth,h=innerHeight;
-    mx=(e.clientX/w)*2-1; my=-(e.clientY/h)*2+1;
-    tx=my*.26; ty=mx*.5; active=true;
+    const mx=(e.clientX/innerWidth)*2-1, my=-(e.clientY/innerHeight)*2+1;
+    rxT=my*.20; ryT=mx*.40;
     ray.setFromCamera({x:mx,y:my},cam);
     if(ray.ray.intersectPlane(plane,hit)) want.copy(hit);
   },{passive:true});
-  addEventListener('pointerleave',()=>{active=false;want.set(9,9,9)});
+  addEventListener('pointerleave',()=>{ want.set(99,99,99); rxT=0; ryT=0; });
 
-  function resize(){ const w=host.clientWidth,h=host.clientHeight;
-    cam.aspect=w/h; cam.updateProjectionMatrix(); rnd.setSize(w,h,false);
-    const dpr=Math.min(devicePixelRatio,2); rnd.setPixelRatio(dpr); U.uDpr.value=dpr;
-    const narrow=w<820; grp.position.x=narrow?0:1.55; grp.scale.setScalar(narrow?1.15:1.5);
+  let dprCap=2, dim=1, yOff=0;
+  function resize(){
+    const w=host.clientWidth,h=host.clientHeight; if(!w||!h) return;
+    const dpr=Math.min(devicePixelRatio||1,dprCap);
+    cam.aspect=w/h; cam.updateProjectionMatrix();
+    rnd.setPixelRatio(dpr); rnd.setSize(w,h,false); U.uDpr.value=dpr;
+    const narrow=w<820;
+    grp.position.x=narrow?.30:1.34;
+    grp.scale.setScalar(narrow?1.0:1.5);
+    U.uSize.value=narrow?.8:1;
+    dim=narrow?.45:1; yOff=narrow?-.62:0;
   }
   addEventListener('resize',resize); resize();
 
-  const clock=new THREE.Clock(); let sc=0, spin=0, ox=0, oy=0;
-  addEventListener('scroll',()=>{ sc=Math.min(scrollY/innerHeight,1.2); },{passive:true});
+  /* ── loop ─────────────────────────────────────── */
+  const clock=new THREE.Clock();
+  const damp=(c,t,l,dt)=>c+(t-c)*(1-Math.exp(-l*dt));
+  let sc=0,scT=0,spin=0,rx=0,ry=0,vis=true,acc=0,fr=0;
+  addEventListener('scroll',()=>{ scT=Math.min(scrollY/innerHeight,1.2); },{passive:true});
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) clock.getDelta(); });
+  new IntersectionObserver(es=>{ vis=es[0].isIntersecting; if(vis) clock.getDelta(); },
+    {threshold:0}).observe(document.getElementById('hero'));
 
   (function loop(){
     requestAnimationFrame(loop);
-    const t=clock.getElapsedTime(); U.uTime.value=t;
-    ptr.lerp(want,.12); U.uPtr.value.copy(ptr);
-    spin += RM?0:.0016;
-    oy += (ty-oy)*.05; ox += (tx-ox)*.05;
-    grp.rotation.y = spin + oy + sc*.55;
-    grp.rotation.x = ox + sc*.12;
-    grp.rotation.z = Math.sin(t*.25)*.05;
-    grp.position.y = -sc*1.5 + Math.sin(t*.5)*.05;
-    U.uFade.value = Math.max(0,1-sc*1.05);
-    host.style.opacity = U.uFade.value;
-    const pulse=(Math.sin(t*2.4)*.5+.5);
-    halo.scale.setScalar(1+pulse*.5); halo.material.opacity=.06+pulse*.14;
-    tip.scale.setScalar(1+pulse*.18);
-    lead.rotation.z=Math.sin(t*.6)*.04;
-    if(U.uFade.value>0.01) rnd.render(scene,cam);
+    const dt=Math.min(clock.getDelta(),.05), t=clock.getElapsedTime();
+    if(document.hidden) return;
+
+    U.uTime.value=t;
+    ptr.lerp(want,1-Math.exp(-7*dt)); U.uPtr.value.copy(ptr);
+
+    /* stimulation cycle: charge → discharge → field propagates outward */
+    const ct=RM?1.05:t;
+    const T=3.0, w=(ct%T)/T, e=1-Math.pow(1-w,1.6);
+    U.uWave.value=e*3.0;
+    U.uWaveAmp.value=Math.pow(1-w,1.2);
+    const flash=Math.exp(-Math.pow(w*11,2))+Math.exp(-Math.pow((1-w)*11,2));
+    const breathe=RM?.5:Math.sin(t*2.0)*.5+.5;
+
+    contacts.forEach((c,i)=>{
+      const ph=(w-(.60+i*.075)+1)%1;
+      c.material.uniforms.uA.value=.45+Math.exp(-Math.pow(ph*13,2))*.55+flash*.25;
+    });
+    field.material.uniforms.uR.value=.03+e*.66;
+    field.material.uniforms.uW.value=.10+w*.13;
+    field.material.uniforms.uA.value=Math.pow(1-w,1.8)*.30;
+
+    core.scale.setScalar(1+flash*.26+breathe*.05);
+    near.material.uniforms.uA.value=.48+flash*.40+breathe*.05;
+    mid.material.uniforms.uA.value=.24+flash*.28+breathe*.03;
+    halo.material.uniforms.uA.value=.085+flash*.13+breathe*.02;
+
+    spin+=dt*(RM?0:.085);
+    ry=damp(ry,ryT,3.2,dt); rx=damp(rx,rxT,3.2,dt); sc=damp(sc,scT,6.0,dt);
+    grp.rotation.y=spin+ry+sc*.5;
+    grp.rotation.x=rx+sc*.12;
+    grp.rotation.z=RM?0:Math.sin(t*.22)*.035;
+    grp.position.y=yOff-sc*1.45+(RM?0:Math.sin(t*.45)*.045);
+    lead.rotation.z=RM?0:Math.sin(t*.55)*.028;
+
+    U.uFade.value=Math.max(0,1-sc*1.05);
+    host.style.opacity=U.uFade.value*dim;
+    if(!vis||U.uFade.value<=.01) return;
+
+    /* adaptive resolution — drop DPR if we cannot hold the frame */
+    acc+=dt; if(++fr>=90){ if(acc/fr>.024&&dprCap>1){ dprCap=1; resize(); } acc=0; fr=0; }
+    rnd.render(scene,cam);
   })();
 })();
 </script>
