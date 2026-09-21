@@ -1,13 +1,14 @@
 # GAINN — website
 
-Static site for GAINN (Graduate Advancement in Neuromodulation and Neurotechnology),
-CRANIA NeuroModulation Institute, University of Toronto.
+Static site. All page content is currently placeholder — the design system, layout
+and hero animation are in place, waiting on real copy.
 
 ## Structure
 
-- `index.html` — the entire site. Self-contained: all CSS and JS inline, logo embedded
-  as a data URI. No build step, no dependencies to install.
-- `assets/` — source logo files (the page does not load these; kept for future edits)
+- `index.html` — the entire site. Self-contained: all CSS and JS inline. No build
+  step, no dependencies to install.
+- `mobile.html` — a standalone mobile layout study. Not linked from `index.html`.
+- `assets/` — source logo files (the pages do not load these; kept for future edits)
 
 Two external requests at runtime: Google Fonts (Fraunces, Instrument Sans, IBM Plex Mono)
 and three.js r128 from cdnjs for the hero animation.
@@ -33,6 +34,6 @@ Project settings:
 ## Editing
 
 Everything is in `index.html`. Design tokens live in the `:root` block at the top of
-the `<style>` tag — colours, fonts, spacing, radii. Content marked `[IN BRACKETS]` is a
-placeholder waiting on real copy (dates, bios, photos, event details, phone number,
-official NSERC acknowledgement wording).
+the `<style>` tag — colours, fonts, spacing, radii. Anything marked `[In brackets]` is
+a placeholder waiting on real copy. Repeated items (partners, marquee entries, team
+cards) are generated from short arrays near the top of the `<script>` block.
