@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GAINN</title>
+<title>GAINN — design concept</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..700&display=swap">
 <style>
@@ -98,7 +98,14 @@ nav.on .bar{height:64px}
 #gl{position:absolute;inset:0;z-index:0}
 #gl canvas{display:block;width:100%;height:100%}
 .hero-fx{position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:radial-gradient(900px 620px at 72% 42%,rgba(30,55,101,.42),rgba(6,9,14,0) 70%)}
+  background:
+    radial-gradient(880px 560px at 76% 50%,rgba(30,55,101,.32),rgba(6,9,14,0) 72%),
+    linear-gradient(90deg,rgba(6,9,14,.96) 0%,rgba(6,9,14,.86) 30%,rgba(6,9,14,0) 50%)}
+.stim{position:absolute;z-index:3;display:flex;align-items:center;gap:8px;white-space:nowrap;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:#FFB09E;
+  transform:translateX(-50%);opacity:0;transition:opacity .7s var(--ease);pointer-events:none}
+.stim.on{opacity:.9}
+.stim i{width:5px;height:5px;border-radius:50%;background:var(--red);box-shadow:0 0 9px rgba(255,74,43,.95)}
 .grain{position:absolute;inset:0;pointer-events:none;opacity:.2;z-index:2}
 .hero-in{position:relative;z-index:3;max-width:660px}
 .tag{display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 16px 0 12px;border:1px solid rgba(124,166,226,.3);border-radius:999px;background:rgba(30,55,101,.24);backdrop-filter:blur(6px)}
@@ -224,7 +231,9 @@ footer{position:relative;background:var(--footer);border-top:1px solid var(--lin
   .ev{flex-wrap:wrap;gap:18px}
   .mq{flex-direction:column;align-items:flex-start;gap:16px;padding:26px 0}
   .mq-vp{width:100%;flex:none}
-  .hero-fx{background:radial-gradient(700px 500px at 50% 30%,rgba(30,55,101,.4),rgba(6,9,14,0) 70%)}
+  .hero-fx{background:
+    radial-gradient(620px 460px at 62% 74%,rgba(30,55,101,.30),rgba(6,9,14,0) 70%),
+    linear-gradient(180deg,rgba(6,9,14,.92) 0%,rgba(6,9,14,.66) 40%,rgba(6,9,14,.34) 66%,rgba(6,9,14,.62) 100%)}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition-duration:.01ms!important}
@@ -250,6 +259,7 @@ footer{position:relative;background:var(--footer);border-top:1px solid var(--lin
 <section id="hero">
   <div id="gl"></div>
   <div class="hero-fx"></div>
+  <div class="stim" id="stim" aria-hidden="true"><i></i>Stim on</div>
   <svg class="grain" aria-hidden="true"><filter id="gr"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" fill="transparent" filter="url(#gr)"/></svg>
 
   <div class="shell" style="position:relative;z-index:3">
@@ -267,8 +277,8 @@ footer{position:relative;background:var(--footer);border-top:1px solid var(--lin
         <a href="#program" class="btn btn-1 mag"><span>[Primary action]
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span></a>
         <a href="#about" class="btn btn-2 mag"><span>[Secondary action]</span></a>
-        <a href="concept.html" class="btn btn-alt mag"><span>Check other design concept
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17L17 7M9 7h8v8"/></svg></span></a>
+        <a href="index.html" class="btn btn-alt mag"><span>Back to the main design
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H6M12 5l-7 7 7 7"/></svg></span></a>
       </div>
       <div class="stats rv" style="--d:.74s">
         <div class="stat"><b style="color:var(--tx-faint)">[00]</b><i>[Metric label]</i></div>
@@ -280,7 +290,7 @@ footer{position:relative;background:var(--footer);border-top:1px solid var(--lin
 
   <div class="shell" style="position:absolute;left:50%;transform:translateX(-50%);bottom:0;height:0">
     <div class="cue"><span class="ln"></span><span class="micro">Scroll</span></div>
-    <div class="hint">Move your cursor over the brain</div>
+    <div class="hint">Move your cursor to shift stimulation onset</div>
   </div>
 </section>
 
@@ -565,136 +575,177 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
 addEventListener('load',()=>setTimeout(()=>heroIn.classList.add('lit'),120));
 setTimeout(()=>heroIn.classList.add('lit'),700);
 
-/* ════════ 3D BRAIN ════════ */
+/* ════════ HERO — multichannel recording + stimulation onset ════════ */
 (function(){
   if(typeof THREE==='undefined') return;
-  const host=document.getElementById('gl');
-  const scene=new THREE.Scene();
-  const cam=new THREE.PerspectiveCamera(42,1,.1,100); cam.position.set(0,0,7.1);
+  const host=document.getElementById('gl'); if(!host) return;
+
+  const CH=6, SEG=320;
+  const pos=[], idx=[];
+  for(let c=0;c<CH;c++){
+    const base=c*(SEG+1)*2;
+    for(let i=0;i<=SEG;i++){ const p=i/SEG; pos.push(p,-1,c, p,1,c); }
+    for(let i=0;i<SEG;i++){ const a=base+i*2; idx.push(a,a+1,a+2, a+1,a+3,a+2); }
+  }
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(pos),3));
+  geo.setIndex(idx);
+
+  const U={
+    uTime:{value:0}, uFade:{value:1}, uStim:{value:.5}, uPulse:{value:0}, uPulseP:{value:0},
+    uX0:{value:0}, uX1:{value:1}, uY0:{value:.25}, uDY:{value:.1},
+    uAmp:{value:.055}, uW:{value:.004}, uDim:{value:1}
+  };
+
+  /* the signal itself — disordered before the onset, regularised after */
+  const SIG=`
+    float wob(float x,float s){
+      return sin(x*1.7+s)*.5+sin(x*3.1+s*1.7+1.3)*.28+sin(x*6.3+s*2.3+2.1)*.15+sin(x*11.7+s*3.1)*.08;
+    }
+    float sig(float p,float ch,float t,float stim){
+      float s=ch*2.7;
+      float env=.55+.45*sin(p*2.3+s*3.0+t*.7);
+      float pre=wob(p*(8.0+ch*.9)+t*2.2,s)*env+sin(p*(40.0+ch*4.3)+t*6.0+s)*.30*env;
+      float post=sin(p*(20.0+ch*3.4)+t*(2.5+ch*.28)+s)*.15+wob(p*(3.4+ch*.5)+t*1.1,s)*.085;
+      return mix(pre*.85,post,smoothstep(stim-.04,stim+.13,p));
+    }`;
+
+  const traces=new THREE.Mesh(geo,new THREE.ShaderMaterial({
+    transparent:true,depthWrite:false,depthTest:false,blending:THREE.AdditiveBlending,
+    side:THREE.DoubleSide,uniforms:U,
+    vertexShader:SIG+`
+      uniform float uTime,uStim,uX0,uX1,uY0,uDY,uAmp,uW;
+      varying float vSide; varying float vM; varying float vP;
+      void main(){
+        float p=position.x, side=position.y, ch=position.z, e=.0045;
+        float y=sig(p,ch,uTime,uStim);
+        float dy=(sig(p+e,ch,uTime,uStim)-sig(p-e,ch,uTime,uStim))*uAmp/(2.0*e*(uX1-uX0));
+        vec2 n=normalize(vec2(-dy,1.0));
+        vec2 q=vec2(uX0+p*(uX1-uX0), uY0+ch*uDY+y*uAmp)+n*side*uW;
+        vSide=side; vP=p;
+        vM=smoothstep(uStim-.04,uStim+.13,p);
+        gl_Position=projectionMatrix*modelViewMatrix*vec4(q,0.0,1.0);
+      }`,
+    fragmentShader:`
+      uniform float uFade,uPulse,uPulseP,uDim;
+      varying float vSide; varying float vM; varying float vP;
+      void main(){
+        float core=exp(-vSide*vSide*7.0), halo=exp(-vSide*vSide*1.6)*.34;
+        vec3 c=mix(vec3(1.0,.38,.22),vec3(.62,.80,1.0),vM);
+        c+=vec3(1.0,.96,.92)*core*.60;
+        float pw=exp(-pow((vP-uPulseP)*7.0,2.0))*uPulse*step(uPulseP-vP,0.0);
+        c+=vec3(1.0,.78,.64)*pw*.85;
+        float edge=smoothstep(0.0,.10,vP)*(1.0-smoothstep(.90,1.0,vP));
+        gl_FragColor=vec4(c,(core+halo)*edge*(.62+pw*.7)*uFade*uDim);
+      }`
+  }));
+  traces.frustumCulled=false; traces.renderOrder=1;
+
+  /* the stimulation onset marker */
+  const markerMat=new THREE.ShaderMaterial({
+    transparent:true,depthWrite:false,depthTest:false,blending:THREE.AdditiveBlending,
+    uniforms:{uFade:U.uFade,uDim:U.uDim,uFlash:{value:0}},
+    vertexShader:`varying vec2 vUv; void main(){ vUv=uv;
+      gl_Position=projectionMatrix*modelViewMatrix*vec4(position.xy,0.0,1.0); }`,
+    fragmentShader:`
+      uniform float uFade,uFlash,uDim; varying vec2 vUv;
+      void main(){
+        float x=(vUv.x-.5)*2.0;
+        float core=exp(-x*x*150.0), glow=exp(-x*x*6.0)*.30;
+        float ends=smoothstep(0.0,.16,vUv.y)*(1.0-smoothstep(.84,1.0,vUv.y));
+        vec3 c=vec3(1.0,.29,.17)+vec3(1.0,.85,.75)*core*(.35+uFlash*.75);
+        gl_FragColor=vec4(c,(core*1.3+glow*1.15)*ends*(.70+uFlash*.80)*uFade*uDim);
+      }`
+  });
+  const marker=new THREE.Mesh(new THREE.PlaneGeometry(1,1),markerMat);
+  marker.frustumCulled=false; marker.renderOrder=2;
+
+  const scene=new THREE.Scene(); scene.add(traces); scene.add(marker);
+  const cam=new THREE.OrthographicCamera(0,1,1,0,-1,1);
   const rnd=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});
   rnd.setClearColor(0x000000,0); host.appendChild(rnd.domElement);
 
-  const grp=new THREE.Group(); grp.position.x=1.55; scene.add(grp);
+  /* ── layout ───────────────────────────────────── */
+  let aspect=1.6, stimT=.40, narrow=false, dprCap=2;
+  function resize(){
+    const w=host.clientWidth,h=host.clientHeight; if(!w||!h) return;
+    aspect=w/h; narrow=w<820;
+    cam.left=0; cam.right=aspect; cam.top=1; cam.bottom=0; cam.updateProjectionMatrix();
+    const dpr=Math.min(devicePixelRatio||1,dprCap);
+    rnd.setPixelRatio(dpr); rnd.setSize(w,h,false);
 
-  /* brain-ish point field: two lobes, central fissure, lumpy surface */
-  const N=1150, pos=[], seed=[], size=[];
-  const noise=(x,y,z)=> .10*Math.sin(3.1*x+1.7)+.09*Math.sin(2.7*y+2.3)+.08*Math.sin(3.6*z+.9)
-                       +.05*Math.sin(6.2*x+4.1*y)+.045*Math.sin(5.4*y+3.3*z);
-  for(let i=0;i<N;i++){
-    const t=(i+.5)/N, phi=Math.acos(1-2*t), th=Math.PI*(1+Math.sqrt(5))*i;
-    let x=Math.sin(phi)*Math.cos(th), y=Math.sin(phi)*Math.sin(th), z=Math.cos(phi);
-    const r=1+noise(x,y,z);
-    x*=r*1.26; y*=r*.90; z*=r*1.02;
-    y-=.10*Math.pow(Math.abs(z),2);                  // tilt the frontal mass down
-    const f=Math.max(0,.16-Math.abs(x))*1.5;          // longitudinal fissure
-    x+=Math.sign(x||1)*f; y-=f*.55;
-    pos.push(x,y,z); seed.push(Math.random()); size.push(1.5+Math.random()*2.2);
-  }
-  const P=new Float32Array(pos);
-  const g=new THREE.BufferGeometry();
-  g.setAttribute('position',new THREE.BufferAttribute(P,3));
-  g.setAttribute('aSeed',new THREE.BufferAttribute(new Float32Array(seed),1));
-  g.setAttribute('aSize',new THREE.BufferAttribute(new Float32Array(size),1));
-
-  const U={uTime:{value:0},uPtr:{value:new THREE.Vector3(9,9,9)},uDpr:{value:1},uFade:{value:1}};
-  const pts=new THREE.Points(g,new THREE.ShaderMaterial({
-    transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:U,
-    vertexShader:`attribute float aSeed;attribute float aSize;uniform float uTime;uniform vec3 uPtr;uniform float uDpr;varying float vG;
-      void main(){vec3 p=position*(1.0+sin(uTime*.9+aSeed*6.283)*.014);
-        vec4 wp=modelMatrix*vec4(p,1.0);
-        float d=distance(wp.xyz,uPtr);
-        float glow=smoothstep(1.5,0.0,d);
-        float wave=sin(uTime*1.6-length(p)*5.0)*.5+.5;
-        vG=glow*1.15+wave*.14;
-        vec4 mv=viewMatrix*wp;
-        gl_PointSize=aSize*(1.0+glow*1.9)*uDpr*(14.0/-mv.z);
-        gl_Position=projectionMatrix*mv;}`,
-    fragmentShader:`varying float vG;uniform float uFade;
-      void main(){float d=length(gl_PointCoord-.5);if(d>.5)discard;
-        float a=smoothstep(.5,.06,d);
-        vec3 c=mix(vec3(.42,.62,.90),vec3(1.0,.32,.18),clamp(vG,0.,1.));
-        gl_FragColor=vec4(c,a*(.5+vG*.9)*uFade);}`
-  }));
-  grp.add(pts);
-
-  /* synapses: link each point to its 2 nearest neighbours */
-  const seg=[];
-  for(let i=0;i<N;i+=1){
-    const ax=P[i*3],ay=P[i*3+1],az=P[i*3+2]; let b1=-1,b2=-1,d1=9,d2=9;
-    for(let j=0;j<N;j+=3){ if(j===i)continue;
-      const dx=ax-P[j*3],dy=ay-P[j*3+1],dz=az-P[j*3+2],d=dx*dx+dy*dy+dz*dz;
-      if(d<d1){d2=d1;b2=b1;d1=d;b1=j;} else if(d<d2){d2=d;b2=j;} }
-    [b1,b2].forEach(b=>{ if(b>-1) seg.push(ax,ay,az,P[b*3],P[b*3+1],P[b*3+2]); });
-  }
-  const lg=new THREE.BufferGeometry();
-  lg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(seg),3));
-  const lines=new THREE.LineSegments(lg,new THREE.ShaderMaterial({
-    transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:U,
-    vertexShader:`uniform vec3 uPtr;uniform float uTime;varying float vG;
-      void main(){vec4 wp=modelMatrix*vec4(position,1.0);
-        float d=distance(wp.xyz,uPtr);
-        vG=smoothstep(1.7,0.0,d)+ (sin(uTime*2.2-position.y*4.0)*.5+.5)*.10;
-        gl_Position=projectionMatrix*viewMatrix*wp;}`,
-    fragmentShader:`varying float vG;uniform float uFade;
-      void main(){vec3 c=mix(vec3(.30,.44,.72),vec3(1.0,.36,.2),clamp(vG,0.,1.));
-        gl_FragColor=vec4(c,(.10+vG*.55)*uFade);}`
-  }));
-  grp.add(lines);
-
-  /* electrode lead — the red stem from the mark */
-  const lead=new THREE.Group();
-  const stem=new THREE.Mesh(new THREE.CylinderGeometry(.012,.012,3.4,8),
-    new THREE.MeshBasicMaterial({color:0xff4a2b,transparent:true,opacity:.85}));
-  stem.position.y=1.5; lead.add(stem);
-  const tip=new THREE.Mesh(new THREE.SphereGeometry(.085,20,20),new THREE.MeshBasicMaterial({color:0xff4a2b}));
-  tip.position.y=-.18; lead.add(tip);
-  const halo=new THREE.Mesh(new THREE.SphereGeometry(.30,20,20),
-    new THREE.MeshBasicMaterial({color:0xff4a2b,transparent:true,opacity:.14,blending:THREE.AdditiveBlending}));
-  halo.position.y=-.18; lead.add(halo);
-  const cap=new THREE.Mesh(new THREE.SphereGeometry(.055,16,16),new THREE.MeshBasicMaterial({color:0xff4a2b}));
-  cap.position.y=3.2; lead.add(cap);
-  lead.position.set(-.05,.25,.15); grp.add(lead);
-
-  /* pointer → world point on the plane the brain sits in */
-  const ptr=new THREE.Vector3(9,9,9), want=new THREE.Vector3(9,9,9);
-  const ray=new THREE.Raycaster(), plane=new THREE.Plane(new THREE.Vector3(0,0,1),0), hit=new THREE.Vector3();
-  let mx=0,my=0,tx=0,ty=0,active=false;
-  addEventListener('pointermove',e=>{
-    const w=innerWidth,h=innerHeight;
-    mx=(e.clientX/w)*2-1; my=-(e.clientY/h)*2+1;
-    tx=my*.26; ty=mx*.5; active=true;
-    ray.setFromCamera({x:mx,y:my},cam);
-    if(ray.ray.intersectPlane(plane,hit)) want.copy(hit);
-  },{passive:true});
-  addEventListener('pointerleave',()=>{active=false;want.set(9,9,9)});
-
-  function resize(){ const w=host.clientWidth,h=host.clientHeight;
-    cam.aspect=w/h; cam.updateProjectionMatrix(); rnd.setSize(w,h,false);
-    const dpr=Math.min(devicePixelRatio,2); rnd.setPixelRatio(dpr); U.uDpr.value=dpr;
-    const narrow=w<820; grp.position.x=narrow?0:1.55; grp.scale.setScalar(narrow?1.15:1.5);
+    if(narrow){
+      U.uX0.value=aspect*-.04; U.uX1.value=aspect*1.04;
+      U.uY0.value=.10; U.uDY.value=.148; U.uAmp.value=.034;
+      U.uW.value=.0030; U.uDim.value=.30;
+    }else{
+      U.uX0.value=aspect*.455; U.uX1.value=aspect*1.05;
+      U.uY0.value=.305; U.uDY.value=.092; U.uAmp.value=.050;
+      U.uW.value=.0042; U.uDim.value=1;
+    }
+    const mx=U.uX0.value+U.uStim.value*(U.uX1.value-U.uX0.value);
+    const top=U.uY0.value+(CH-1)*U.uDY.value, mid=(U.uY0.value+top)/2;
+    const hgt=(top-U.uY0.value)+U.uAmp.value*3.4;
+    marker.scale.set(.055,hgt,1); marker.position.set(mx,mid,0);
   }
   addEventListener('resize',resize); resize();
 
-  const clock=new THREE.Clock(); let sc=0, spin=0, ox=0, oy=0;
-  addEventListener('scroll',()=>{ sc=Math.min(scrollY/innerHeight,1.2); },{passive:true});
+  const tag=document.getElementById('stim');
+
+  /* ── the onset follows the pointer ────────────── */
+  let stimWant=.52;
+  addEventListener('pointermove',e=>{
+    const r=host.getBoundingClientRect(); if(!r.width) return;
+    const x=(e.clientX-r.left)/r.height;                 // world units
+    const p=(x-U.uX0.value)/(U.uX1.value-U.uX0.value);
+    stimWant=Math.max(.14,Math.min(.86,p));
+  },{passive:true});
+  addEventListener('pointerleave',()=>{ stimWant=.40; });
+
+  /* ── loop ─────────────────────────────────────── */
+  const clock=new THREE.Clock();
+  const damp=(c,t,l,dt)=>c+(t-c)*(1-Math.exp(-l*dt));
+  let sc=0,scT=0,vis=true,acc=0,fr=0;
+  addEventListener('scroll',()=>{ scT=Math.min(scrollY/innerHeight,1.2); },{passive:true});
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) clock.getDelta(); });
+  new IntersectionObserver(es=>{ vis=es[0].isIntersecting; if(vis) clock.getDelta(); },
+    {threshold:0}).observe(document.getElementById('hero'));
 
   (function loop(){
     requestAnimationFrame(loop);
-    const t=clock.getElapsedTime(); U.uTime.value=t;
-    ptr.lerp(want,.12); U.uPtr.value.copy(ptr);
-    spin += RM?0:.0016;
-    oy += (ty-oy)*.05; ox += (tx-ox)*.05;
-    grp.rotation.y = spin + oy + sc*.55;
-    grp.rotation.x = ox + sc*.12;
-    grp.rotation.z = Math.sin(t*.25)*.05;
-    grp.position.y = -sc*1.5 + Math.sin(t*.5)*.05;
-    U.uFade.value = Math.max(0,1-sc*1.05);
-    host.style.opacity = U.uFade.value;
-    const pulse=(Math.sin(t*2.4)*.5+.5);
-    halo.scale.setScalar(1+pulse*.5); halo.material.opacity=.06+pulse*.14;
-    tip.scale.setScalar(1+pulse*.18);
-    lead.rotation.z=Math.sin(t*.6)*.04;
-    if(U.uFade.value>0.01) rnd.render(scene,cam);
+    const dt=Math.min(clock.getDelta(),.05), t=clock.getElapsedTime();
+    if(document.hidden) return;
+
+    U.uTime.value=RM?4.2:t;
+    stimT=RM?.40:damp(stimT,stimWant,7.0,dt);
+    U.uStim.value=stimT;
+
+    const T=2.2, w=RM?.55:(t%T)/T;
+    const flash=Math.exp(-Math.pow(w*13.0,2));
+    U.uPulse.value=RM?0:flash*1.1;
+    U.uPulseP.value=stimT+w*.9;
+    markerMat.uniforms.uFlash.value=RM?.35:flash;
+
+    const mx=U.uX0.value+stimT*(U.uX1.value-U.uX0.value);
+    marker.position.x=mx;
+    if(tag){
+      if(narrow) tag.classList.remove('on');
+      else{
+        const h=host.clientHeight;
+        tag.style.left=(mx/aspect*100)+'%';
+        tag.style.top=((1-(marker.position.y+marker.scale.y/2))*h-20)+'px';
+        tag.classList.add('on');
+      }
+    }
+
+    sc=damp(sc,scT,6.0,dt);
+    U.uFade.value=Math.max(0,1-sc*1.05);
+    host.style.opacity=U.uFade.value;
+    host.style.transform='translateY('+(-sc*46)+'px)';
+    if(!vis||U.uFade.value<=.01) return;
+
+    acc+=dt; if(++fr>=90){ if(acc/fr>.024&&dprCap>1){ dprCap=1; resize(); } acc=0; fr=0; }
+    rnd.render(scene,cam);
   })();
 })();
 </script>
