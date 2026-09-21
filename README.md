@@ -1,13 +1,13 @@
 # GAINN — website
 
-Static site. All page content is currently placeholder — the design system, layout
-and hero animation are in place, waiting on real copy.
+Static site. `index.html` is currently a holding page — logo and "Coming soon"
+only. The full template (design system, sections, hero animation) lives on the
+`claude/spec-sections` branch and in history.
 
 ## Structure
 
 - `index.html` — the entire site. Self-contained: all CSS and JS inline. No build
   step, no dependencies to install.
-- `mobile.html` — a standalone mobile layout study. Not linked from `index.html`.
 - `assets/` — source logo files (the pages do not load these; kept for future edits)
 
 Two external requests at runtime: Google Fonts (Fraunces, Instrument Sans, IBM Plex Mono)
